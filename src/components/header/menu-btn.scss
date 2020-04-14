@@ -1,0 +1,31 @@
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  @include easeOut;
+
+  &.show {
+    transform: rotate(180deg);
+
+    .btn-line {
+      &:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 9px);
+      }
+      &:nth-child(2) {
+        opacity: 0;
+      }
+      &:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -8px);
+      }
+    }
+  }
+
+  .btn-line {
+    height: 4px;
+    background-color: white;
+    margin: 6px;
+    width: 30px;
+
+    @include easeOut;
+  }
+}

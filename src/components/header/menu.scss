@@ -1,0 +1,40 @@
+.menu {
+  position: absolute;
+  transform-origin: top;
+  transform: scaleY(0);
+  width: 100%;
+  top: $height;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 1.2rem 2.5rem;
+  background-color: $primary-dark;
+  @include easeOut;
+
+  &.show {
+    transform: scaleY(1);
+  }
+
+  .nav-link-list {
+    list-style: none;
+
+    .nav-link {
+      font-size: 1.2rem;
+      margin: 0.8rem 0;
+      opacity: 0;
+      transform: translate(0, -2rem);
+      color: white;
+      cursor: pointer;
+      transition-delay: 0s;
+      @include easeOut;
+      transition-duration: 0.1s;
+
+      &.show {
+        opacity: 1;
+        transform: translate(0, 0);
+        transition-delay: 0.4s;
+        transition-duration: 0.5s;
+      }
+    }
+  }
+}
