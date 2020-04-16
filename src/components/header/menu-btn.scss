@@ -22,7 +22,7 @@
 
   .btn-line {
     height: 4px;
-    background-color: $secondary-color;
+    background-color: lighten($secondary-color, 5);
     margin: 6px;
     width: 30px;
 

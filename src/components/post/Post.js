@@ -28,12 +28,12 @@ export const Post = (props) => {
         <span className="author-link link">{ author.username }</span>
       </header>
       <aside className="post-controls">
-        <span class="btn" onClick={toggleThumbUp}>
+        <span className="btn" onClick={toggleThumbUp}>
           <Icon 
             icon={isThumbUp ? thumbsUp : thumbsOUp} 
             width="1.5rem" height="1.5rem" />
         </span>
-        <span class="btn" onClick={toggleThumbDown}>
+        <span className="btn" onClick={toggleThumbDown}>
           <Icon 
             icon={isThumbDown ? thumbsDown : thumbsODown} 
             width="1.5rem" height="1.5rem" />

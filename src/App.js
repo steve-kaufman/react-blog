@@ -18,8 +18,8 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
       <Router basename={baseUrl}>
+        <Header />
         <Switch>
           <PostProvider>
             <Route exact path='/' component={PostList} />
