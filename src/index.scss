@@ -10,12 +10,28 @@ body {
   font-family: 'Source Sans Pro', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: white;
+  background: lighten($color: $primary-color, $amount: 10);
+  color: white;
 }
 
 .link {
-  cursor: pointer;
-  color: blue;
+  @include clickable;
+  text-decoration: underline;
+}
+
+.btn {
+  @include clickable;
+}
+
+.text-secondary {
+  color: $secondary-color;
+
+  &-light {
+    color: lighten($secondary-color, 10);
+  }
+}
+.text-dark {
+  color: $dark;
 }
 
 a {
@@ -25,4 +41,12 @@ a {
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
+}
+
+main#page-main {
+  .page-title {
+    padding: 1rem 2rem;
+    margin: 1rem 0;
+    // background: lighten($color: $primary-color, $amount: 12);
+  }
 }

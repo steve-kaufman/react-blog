@@ -1,35 +1,36 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
+import moment from 'moment'
 import './PostList.scss';
 
 import { Post } from '..'
+import { ListPage } from '..'
+
+import { PostContext } from '../../context/PostContext'
 
 export const PostList = () => {
-  const [posts] = useState([
-    {
-      title: 'How to make the perfect omelete',
-      content: 'Step 1\nBreak the egg in to seven pieces, very yummy\nStep 2\nBeat it with a stick',
-      authorId: 1
-    },
-    {
-      title: 'Post 2',
-      content: 'This is the second post',
-      authorId: 2
-    },
-    {
-      title: 'Post 3',
-      content: 'This is the third post',
-      authorId: 1
-    }
-  ])
+  const [posts] = useContext(PostContext)
+
+  const currentTime = moment().format('MMMM Do YYYY, h:mm a')
 
   return (
-    <main id="PostList">
-      <h2 className="page-title">Posts:</h2>
-      <ul className="postList">
-        {posts.map(({ title, content, authorId }, i) => (
-          <Post title={title} content={content} authorId={authorId} key={i} />
-        ))}
-      </ul>
-    </main>
+    <ListPage>
+      <header className="page-title">
+        <h2 className="">Recent Posts:</h2>
+        <h4 className="text-secondary-light">{currentTime}</h4>
+      </header>
+      {posts.map((post, i) => {
+        const { id, title, content, author } = post
+        return (
+          <Post 
+            key={i}
+            id={id} 
+            title={title} 
+            content={content} 
+            author={author} 
+            short={true}
+          />
+        )
+      })}
+    </ListPage>
   )
 }

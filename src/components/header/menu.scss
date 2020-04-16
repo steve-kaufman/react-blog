@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   padding: 1.2rem 2.5rem;
-  background-color: $primary-dark;
+  background-color: lighten($color: $primary-color, $amount: 10);
   @include easeOut;
 
   &.show {
@@ -34,6 +34,13 @@
         transform: translate(0, 0);
         transition-delay: 0.4s;
         transition-duration: 0.5s;
+      }
+
+      &:hover {
+        text-decoration: underline;
+        color: $secondary-color;
+        transition-delay: 0ms;
+        transition-duration: 0.2s;
       }
     }
   }
