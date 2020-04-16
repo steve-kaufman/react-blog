@@ -11,10 +11,15 @@ import { PostDetail } from './components/postDetail/PostDetail'
 import { PostProvider } from './context/PostContext'
 
 function App() {
+  const baseUrl = 
+    (process.env.NODE_ENV === 'production') 
+    ? 'react-blog' 
+    : '/'
+
   return (
     <div className="App">
       <Header />
-      <Router>
+      <Router basename={baseUrl}>
         <Switch>
           <PostProvider>
             <Route exact path='/' component={PostList} />
