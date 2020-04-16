@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './Header.scss'
 
 export const Header = () => {
@@ -10,7 +11,9 @@ export const Header = () => {
 
   return (
     <header id="page-header">
-      <a className="header-title" href="/">React Blog</a>
+      <Link to='/'>
+        <span className="header-title">React Blog</span>
+      </Link>
       <div className={`menu-btn ${showClass}`} onClick={toggleShowClass}>
         <div className="btn-line"></div>
         <div className="btn-line"></div>
