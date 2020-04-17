@@ -5,8 +5,7 @@ import {
   Route
 } from 'react-router-dom'
 
-import { Header, PostList } from './components'
-import { PostDetail } from './components/postDetail/PostDetail'
+import { Header, PostList, PostDetail, PostUpdate } from './components'
 
 import { PostProvider } from './context/PostContext'
 
@@ -23,7 +22,8 @@ function App() {
         <Switch>
           <PostProvider>
             <Route exact path='/' component={PostList} />
-            <Route path='/post/:id' component={PostDetail} />
+            <Route exact path='/post/:id' component={PostDetail} />
+            <Route exact path='/post/edit/:id' component={PostUpdate} />
           </PostProvider>
         </Switch>
       </Router>

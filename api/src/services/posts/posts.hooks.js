@@ -1,14 +1,16 @@
+const { authenticate } = require('@feathersjs/authentication').hooks;
 
+const requireSameUser = require('../../hooks/require-same-user');
 
 module.exports = {
   before: {
-    all: [],
+    all: [ authenticate('jwt') ],
     find: [],
     get: [],
-    create: [],
-    update: [],
-    patch: [],
-    remove: []
+    create: [requireSameUser()],
+    update: [requireSameUser()],
+    patch: [requireSameUser()],
+    remove: [requireSameUser()]
   },
 
   after: {

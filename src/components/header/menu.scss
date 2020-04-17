@@ -1,15 +1,22 @@
 .menu {
-  position: absolute;
-  transform-origin: top;
-  transform: scaleY(0);
   width: 100%;
-  top: $height;
-  left: 0;
+
   display: flex;
   flex-direction: column;
+
+  position: absolute;
+  top: $header-height;
+  left: 0;
+
   padding: 1.2rem 2.5rem 1.6rem 2.5rem;
+
   background-color: lighten($color: $primary-color, $amount: 10);
-  z-index: 2;
+
+  border-top: 4px solid $secondary-color;
+  border-bottom: 4px solid $third-color;
+
+  transform-origin: top;
+  transform: scaleY(0);
   @include easeOut;
 
   &.show {

@@ -1,16 +1,17 @@
 @import "../../utils.scss";
 
-// passed to bottom imports
-$height: 5rem;
-
 header#page-header {
   width: 100%;
-  height: $height;
+  height: $header-height;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
   background: $primary-color;
+  z-index: 2;
+
+  position: fixed;
+  top: 0;
 
   .header-title {
     font-family: "Source Sans Pro";

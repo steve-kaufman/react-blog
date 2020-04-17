@@ -2,10 +2,13 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Icon } from '@iconify/react'
+
 import thumbsOUp from '@iconify/icons-fa/thumbs-o-up'
 import thumbsUp from '@iconify/icons-fa/thumbs-up'
 import thumbsODown from '@iconify/icons-fa/thumbs-o-down'
 import thumbsDown from '@iconify/icons-fa/thumbs-down'
+
+import pencilIcon from '@iconify/icons-fa/pencil'
 
 import './Post.scss'
 
@@ -25,6 +28,11 @@ export const Post = (props) => {
   return (
     <article className="post" style={style}>
       <header className="post-header">
+        <Link to={`/post/edit/${id}`}>
+          <Icon 
+            icon={pencilIcon} 
+            width="1.2rem" height="1.2rem" />
+        </Link>
         <span className="author-link link">{ author.username }</span>
       </header>
       <aside className="post-controls">

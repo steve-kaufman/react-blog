@@ -1,0 +1,67 @@
+@import '../../utils.scss';
+
+.title-form {
+  background: $primary-color;
+  h3 {
+    padding: 1rem;
+  }
+
+  .title-input {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-left: 0.5rem solid $secondary-color;
+    @include easeOut;
+
+    &:focus {
+      border-left: 0.5rem solid $third-color;
+    }
+  }
+}
+
+.content-form {
+  background: $primary-color;
+
+  h3 {
+    padding: 1rem;
+  }
+
+  .content-input {
+    width: 100%;
+    height: 30vh;
+    padding: 1.2rem 1rem;
+    border: none;
+    border-left: 0.5rem solid $secondary-color;
+    @include easeOut;
+
+    &:focus {
+      border-left: 0.5rem solid $third-color;
+    }
+  }
+}
+
+.controls {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5rem;
+
+  .btn {
+    width: 5rem;
+    height: 2rem;
+    margin: 0 0.5rem;
+    text-align: center;
+    line-height: 2rem;
+
+    &.save-btn {
+      background-color: $secondary-color;
+    }
+    &.cancel-btn {
+      background-color: $primary-color;
+    }
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

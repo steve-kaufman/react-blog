@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import './PostDetail.scss';
 
 import { Post } from '..' 
-import { ListPage } from '..'
+import { Page } from '..'
 
 import { PostContext } from '../../context/PostContext'
  
@@ -19,12 +19,12 @@ export const PostDetail = (props) => {
   const { title, content, author } = post
 
   return (
-    <ListPage>
+    <Page>
       <div className="page-title">
         <h2>Post by {author.username}</h2>
         <h3>Created at 3:00 PM</h3>
       </div>
       <Post id={id} title={title} content={content} author={author} />
-    </ListPage>
+    </Page>
   )
 }

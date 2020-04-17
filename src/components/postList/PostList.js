@@ -3,7 +3,7 @@ import moment from 'moment'
 import './PostList.scss';
 
 import { Post } from '..'
-import { ListPage } from '..'
+import { Page } from '..'
 
 import { PostContext } from '../../context/PostContext'
 
@@ -13,7 +13,7 @@ export const PostList = () => {
   const currentTime = moment().format('MMMM Do YYYY, h:mm a')
 
   return (
-    <ListPage>
+    <Page>
       <header className="page-title">
         <h2 className="">Recent Posts:</h2>
         <h4 className="text-secondary-light">{currentTime}</h4>
@@ -31,6 +31,6 @@ export const PostList = () => {
           />
         )
       })}
-    </ListPage>
+    </Page>
   )
 }

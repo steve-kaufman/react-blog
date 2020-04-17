@@ -12,6 +12,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: lighten($color: $primary-color, $amount: 10);
   color: white;
+  height: 300vh;
 }
 
 .link {
@@ -43,10 +44,20 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
 }
 
-main#page-main {
-  .page-title {
-    padding: 1rem 2rem;
-    margin: 1rem 0;
-    // background: lighten($color: $primary-color, $amount: 12);
-  }
+textarea, input {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem;
+  outline: none;
+}
+
+button {
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+svg {
+  // z-index: -1;
 }
