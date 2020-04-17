@@ -31,9 +31,6 @@ body {
     color: lighten($secondary-color, 10);
   }
 }
-.text-dark {
-  color: $dark;
-}
 
 a {
   text-decoration: none;
@@ -56,6 +53,10 @@ button {
   color: inherit;
   font-family: inherit;
   font-size: 1rem;
+  background: none;
+  width: auto;
+  height: auto;
+  cursor: pointer;
 }
 
 svg {

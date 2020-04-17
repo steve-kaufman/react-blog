@@ -13,7 +13,7 @@
     
     .author-link {
       margin-left: auto;
-      color: $light;
+      color: darken($color: white, $amount: 20)
     }
 
     svg {

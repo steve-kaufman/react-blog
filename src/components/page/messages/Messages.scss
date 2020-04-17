@@ -1,0 +1,49 @@
+@import '../../../utils.scss';
+
+.message {
+  padding: 2rem;
+  padding-bottom: 0;
+
+  p {
+    padding: 0 2rem;
+    background-color: $success;
+    font-weight: bold;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &:hover {
+      box-shadow: 2px 2px 2px lighten($primary-color, 5);
+      button {
+        color: white;
+      }
+    }
+
+    button {
+      margin-top: 5px;
+      width: 2rem;
+      height: 2rem;
+      color: darken($color: white, $amount: 20);
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .closed {
+    display: none;
+  }
+}
+
+.message-transition-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.message-transition-exit-active {
+  opacity: 0;
+  transform: scale(0);
+  @include easeOut;
+}

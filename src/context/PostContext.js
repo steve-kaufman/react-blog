@@ -49,9 +49,11 @@ const reducer = (posts, action) => {
 }
 
 export const PostProvider = ({ children }) => {
-  const [posts, dispatch] = useReducer(reducer, intialState)
+  const [state, dispatch] = useReducer(reducer, intialState)
 
-  return (<PostContext.Provider value={[posts, dispatch]}>
-    {children}
-  </PostContext.Provider>)
+  return (
+    <PostContext.Provider value={[state, dispatch]}>
+      {children}
+    </PostContext.Provider>
+  )
 }

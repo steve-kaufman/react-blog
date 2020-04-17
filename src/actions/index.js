@@ -1,3 +1,5 @@
 import { updatePost } from './updatePost'
+import { addMessage } from './addMessage'
+import { deleteMessage } from './deleteMessage'
 
-export { updatePost }
+export { addMessage, updatePost, deleteMessage }

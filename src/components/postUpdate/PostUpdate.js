@@ -9,29 +9,33 @@ import { PostContext } from '../../context/PostContext'
 import { updatePost } from '../../actions'
  
 export const PostUpdate = (props) => {
-  // Get posts from PostContext
   const [posts, dispatch] = useContext(PostContext)
   // Ensure that a number is supplied as id
   const id = Number(props.match.params.id)
-  // Look for post matching route id
   const post = posts.find(post => post.id === id)
 
   const [title, setTitle] = useState(post.title)
   const [content, setContent] = useState(post.content)
 
-  const [done, setDone] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const [cancelled, setCancelled] = useState(false)
 
   const save = () => {
     dispatch(updatePost(id, title, content))
-    setDone(true)
+    setSaved(true)
   }
 
   const cancel = () => {
-    setDone(true)
+    setCancelled([])
   }
 
-  if (done) {
-    return <Redirect to={`/post/${id}`} />
+  if (saved || cancelled) {
+    const messages = saved ? ['Post saved!'] : []
+
+    return <Redirect to={{
+      pathname: `/post/${id}`,
+      state: { messages }
+    }} />
   }
 
   return (
