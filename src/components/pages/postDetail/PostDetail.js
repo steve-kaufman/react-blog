@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import './PostDetail.scss';
 
-import { Post } from '..' 
-import { Page } from '..'
+import { Post } from '../..' 
+import { Page } from '../..'
 
-import { PostContext } from '../../context/PostContext'
+import { PostContext } from '../../../context/PostContext'
  
 export const PostDetail = (props) => {
   // Get posts from PostContext

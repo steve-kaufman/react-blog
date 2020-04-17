@@ -2,11 +2,11 @@ import React, { useState, useContext } from 'react'
 import { Redirect } from 'react-router-dom'
 import './PostUpdate.scss';
 
-import { Page } from '..'
+import { Page } from '../..'
 
-import { PostContext } from '../../context/PostContext'
+import { PostContext } from '../../../context/PostContext'
 
-import { updatePost } from '../../actions'
+import { updatePost } from '../../../actions'
  
 export const PostUpdate = (props) => {
   const [posts, dispatch] = useContext(PostContext)
