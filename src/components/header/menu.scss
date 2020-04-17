@@ -10,7 +10,7 @@
 
   padding: 1.2rem 2.5rem 1.6rem 2.5rem;
 
-  background-color: lighten($color: $primary-color, $amount: 10);
+  background-color: lighten($color: $primary-color, $amount: 8);
 
   &::before {
     content: '';
