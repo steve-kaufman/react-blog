@@ -21,12 +21,20 @@ export const Header = () => {
       </div>
       <nav className={`menu ${showClass}`}>
         <ul className="nav-link-list">
-          <li className={`nav-link ${showClass}`}>Home</li>
-          <li className={`nav-link ${showClass}`}>About</li>
+          <li className={`nav-link ${showClass}`}>
+            <Link to='/'> Home </Link> 
+          </li>
+          <li className={`nav-link ${showClass}`}>
+            <Link to='/about'> About </Link>
+          </li>
         </ul>
         <ul className="nav-link-list">
-          <li className={`nav-link ${showClass}`}>Log In</li>
-          <li className={`nav-link ${showClass}`}>Sign Up</li>
+          <li className={`nav-link ${showClass}`}>
+            <Link to='/login'> Log In </Link>
+          </li>
+          <li className={`nav-link ${showClass}`}>
+            <Link to='/register'> Sign Up </Link>
+          </li>
         </ul>
       </nav>
     </header>
