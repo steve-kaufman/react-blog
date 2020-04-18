@@ -1,0 +1,19 @@
+@import '../../../utils.scss';
+
+#page-main.page-not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 12rem;
+
+  margin: 10rem 10vw;
+  border: 4px solid $secondary-color;
+
+  h4 {
+    margin-top: 2rem;
+    color: darken($color: white, $amount: 20);
+    max-width: 50vw;
+  }
+}

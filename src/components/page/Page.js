@@ -9,7 +9,7 @@ import { Messages } from './messages/Messages'
 import { UIContext } from '../../context/UIContext'
 import { setMenuOpen } from '../../actions'
 
-export const Page = ({ className, children, messages }) => {
+export const Page = ({ className, children, messages, noTransition }) => {
   const location = useLocation()
 
   const [ui, dispatch] = useContext(UIContext)
@@ -25,6 +25,14 @@ export const Page = ({ className, children, messages }) => {
       dispatch(setMenuOpen(false))
     }
   }, [location.pathname, messages])
+
+  if (noTransition) {
+    return (
+      <main id='page-main' className={className}>
+        {children}
+      </main>
+    )
+  }
 
   return (
     <main id='page-main' className={className}>

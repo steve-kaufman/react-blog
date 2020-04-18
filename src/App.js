@@ -5,7 +5,14 @@ import {
   Route
 } from 'react-router-dom'
 
-import { Header, Login, PostList, PostDetail, PostUpdate } from './components'
+import { 
+  Header, 
+  Login, 
+  NotFound,
+  PostList, 
+  PostDetail, 
+  PostUpdate 
+} from './components'
 
 import { PostProvider } from './context/PostContext'
 import { AuthProvider } from './context/AuthContext'
@@ -23,15 +30,17 @@ function App() {
         <AuthProvider>
           <UIProvider>
           <Header />
-            <Switch>
-              <PostProvider>
-                <Route exact path='/' component={PostList} />
-                <Route exact path='/post/:id' component={PostDetail} />
-                <Route exact path='/post/edit/:id' component={PostUpdate} />
-
-                <Route exact path='/login' component={Login} />
-              </PostProvider>
-            </Switch>
+            <PostProvider>
+              <Switch>
+                  <Route exact path='/' component={PostList} />
+                  <Route exact path='/post/:id' component={PostDetail} />
+                  <Route exact path='/post/edit/:id' component={PostUpdate} />
+                  <Route exact path='/login' component={Login} />
+                  <Route>
+                    <NotFound />
+                  </Route>
+              </Switch>
+            </PostProvider>
           </UIProvider>
         </AuthProvider>
       </Router>

@@ -1,7 +1,7 @@
 import React, { useReducer, createContext } from 'react'
 
 const initialState = {
-  menuIsOpen: true
+  menuIsOpen: false
 }
 
 export const UIContext = createContext()
