@@ -1,14 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import './Messages.scss'
 import { Icon } from '@iconify/react';
 import closeIcon from '@iconify/icons-fa/close';
 
-export const Messages = () => {
+export const Messages = (props) => {
   const location = useLocation()
 
   const [messages, setMessages] = useState(location.state?.messages)
+
+  useEffect(() => {
+    if (props.messages) setMessages(props.messages)
+  }, [props.messages])
 
   const deleteMessage = (i) => {
     setMessages(messages.filter((message, index) => i !== index))

@@ -1,20 +1,25 @@
-import React, { useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import './Header.scss'
 
-export const Header = () => {
-  const [showClass, setShowClass] = useState("")
+import { UIContext } from '../../context/UIContext'
+import { setMenuOpen } from '../../actions'
 
-  const toggleShowClass = () => {
-    setShowClass(showClass === "show" ? "" : "show")
+export const Header = () => {
+  const [ui, dispatch] = useContext(UIContext)
+
+  const toggleMenu = () => {
+    dispatch(setMenuOpen(!ui.menuIsOpen))
   }
+
+  const showClass = ui.menuIsOpen ? "show" : ""
 
   return (
     <header id="page-header">
       <Link to='/'>
         <span className="header-title">React Blog</span>
       </Link>
-      <div className={`menu-btn ${showClass}`} onClick={toggleShowClass}>
+      <div className={`menu-btn ${showClass}`} onClick={toggleMenu}>
         <div className="btn-line"></div>
         <div className="btn-line"></div>
         <div className="btn-line"></div>

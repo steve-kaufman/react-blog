@@ -1,0 +1,70 @@
+@import '../../../utils.scss';
+
+.login-page {
+  .page-title h3 {
+    color: darken(white, 20);
+  }
+
+  .form {
+    width: 100%;
+    padding: 0 2rem;
+    margin-bottom: 1rem;
+
+    label {
+      width: 100%;
+      position: relative;
+      display: block;
+      padding: 0 0.5rem;
+      line-height: 2;
+      // border: solid;
+      // border-width: 2px 0 0 4px;
+      // border-color: $primary-color;
+      border-top: 2px solid $secondary-color;
+      border-bottom: 2px solid $secondary-color;
+      // border-left: 4px solid $primary-color;
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      @include easeOut;
+
+      // &::before {
+      //   content: '';
+      //   position: absolute;
+      //   top: -2px;
+      //   left: 0;
+      //   width: 100%;
+      //   height: 100%;
+      //   border-top: 2px solid $third-color;
+      //   border-bottom: 2px solid $third-color;
+      //   box-sizing: content-box;
+      //   transform: scaleX(0);
+      //   transform-origin: left;
+
+      //   transition: 1.5s transform ease-in-out;
+      // }
+    }
+
+    input {
+      width: 100%;
+      border-left: 4px solid $secondary-color;
+      @include easeOut;
+
+      &:focus {
+        border-color: $third-color;
+      }
+    }
+
+    &.focused {
+      label {
+        border-color: $third-color;
+      }
+    }
+  }
+
+  .controls p {
+    margin-right: auto;
+    margin-left: 1rem;
+    a {
+      text-decoration: underline;
+    }
+  }
+}

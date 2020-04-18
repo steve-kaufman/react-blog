@@ -1,18 +1,33 @@
-import React from 'react'
+import React, { useEffect, useContext } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import { useLocation } from 'react-router-dom'
 
 import './Page.scss'
 
 import { Messages } from './messages/Messages'
 
-export const Page = ({ children }) => {
+import { UIContext } from '../../context/UIContext'
+import { setMenuOpen } from '../../actions'
+
+export const Page = ({ className, children, messages }) => {
+  const location = useLocation()
+
+  const [ui, dispatch] = useContext(UIContext)
+
   const items = [
-    <Messages />,
+    <Messages messages={messages} />,
     ...children
   ]
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+    if (ui.menuIsOpen) {
+      dispatch(setMenuOpen(false))
+    }
+  }, [location.pathname, messages])
+
   return (
-    <main id='page-main'>
+    <main id='page-main' className={className}>
       <TransitionGroup appear={true} className='list-page'>
         {React.Children.map(items, (child, i) => { 
           const transitionDelay = i * 200

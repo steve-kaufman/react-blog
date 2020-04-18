@@ -38,6 +38,16 @@
   }
 }
 
+.message-transition-arrive {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.message-transition-arrive-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
 .message-transition-exit {
   opacity: 1;
   transform: scale(1);

@@ -1,4 +1,4 @@
-import React, { useContext, useReducer } from 'react'
+import React, { createContext, useReducer } from 'react'
 
 // dummy users
 const users = [
@@ -16,12 +16,13 @@ const users = [
 
 /** Context */
 
-export const AuthContext = useContext()
+export const AuthContext = createContext()
 
 // anonymous user
 const initialState = {
   loggedIn: false,
-  user: {}
+  user: null,
+  error: null
 }
 
 const reducer = (state, action) => {
