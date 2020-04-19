@@ -4,7 +4,7 @@ import './Login.scss'
 
 import { Page } from '../..'
 
-import { AuthContext } from '../../../context/AuthContext'
+import { AuthContext } from '../../../context'
 import { login as loginAction } from '../../../actions'
 
 export const Login = () => {

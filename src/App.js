@@ -14,9 +14,7 @@ import {
   PostUpdate 
 } from './components'
 
-import { PostProvider } from './context/PostContext'
-import { AuthProvider } from './context/AuthContext'
-import { UIProvider } from './context/UIContext'
+import { AuthProvider, PostProvider, UIProvider } from './context'
 
 function App() {
   const baseUrl = 

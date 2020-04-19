@@ -5,7 +5,7 @@ import './PostList.scss';
 import { Post } from '../..'
 import { Page } from '../..'
 
-import { PostContext } from '../../../context/PostContext'
+import { PostContext } from '../../../context'
 
 export const PostList = () => {
   const [posts] = useContext(PostContext)

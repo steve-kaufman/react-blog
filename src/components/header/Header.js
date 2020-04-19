@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import './Header.scss'
 
-import { UIContext } from '../../context/UIContext'
+import { UIContext } from '../../context'
 import { setMenuOpen } from '../../actions'
 
 export const Header = () => {

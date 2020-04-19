@@ -6,7 +6,7 @@ import './Page.scss'
 
 import { Messages } from './messages/Messages'
 
-import { UIContext } from '../../context/UIContext'
+import { UIContext } from '../../context'
 import { setMenuOpen } from '../../actions'
 
 export const Page = ({ className, children, messages, noTransition }) => {

@@ -5,7 +5,7 @@ import './PostDetail.scss';
 import { Post } from '../..' 
 import { Page } from '../..'
 
-import { PostContext } from '../../../context/PostContext'
+import { PostContext } from '../../../context'
  
 export const PostDetail = (props) => {
   // Get posts from PostContext

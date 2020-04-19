@@ -4,7 +4,7 @@ import './PostUpdate.scss';
 
 import { Page } from '../..'
 
-import { PostContext } from '../../../context/PostContext'
+import { PostContext } from '../../../context'
 
 import { updatePost } from '../../../actions'
  
