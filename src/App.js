@@ -30,17 +30,29 @@ function App() {
         <AuthProvider>
           <UIProvider>
           <Header />
-            <PostProvider>
-              <Switch>
-                  <Route exact path='/' component={PostList} />
-                  <Route exact path='/post/:id' component={PostDetail} />
-                  <Route exact path='/post/edit/:id' component={PostUpdate} />
-                  <Route exact path='/login' component={Login} />
-                  <Route>
-                    <NotFound />
-                  </Route>
-              </Switch>
-            </PostProvider>
+            <Switch>
+              <Route exact path='/'>
+                <PostProvider>
+                  <PostList />
+                </PostProvider>
+              </Route>
+              <Route exact path='/post/:id'>
+                <PostProvider>
+                  <PostDetail />
+                </PostProvider>
+              </Route>
+              <Route exact path='/post/edit/:id'>
+                <PostProvider>
+                  <PostUpdate />
+                </PostProvider>
+              </Route>
+              <Route exact path='/login'>
+                <Login />
+              </Route>
+              <Route>
+                <NotFound />
+              </Route>
+            </Switch>
           </UIProvider>
         </AuthProvider>
       </Router>

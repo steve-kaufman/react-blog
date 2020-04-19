@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, useParams } from 'react-router-dom'
 import './PostUpdate.scss';
 
 import { Page } from '../..'
@@ -11,7 +11,9 @@ import { updatePost } from '../../../actions'
 export const PostUpdate = (props) => {
   const [posts, dispatch] = useContext(PostContext)
   // Ensure that a number is supplied as id
-  const id = Number(props.match.params.id)
+  const params = useParams()
+  const id = Number(params.id)
+
   const post = posts.find(post => post.id === id)
 
   const [title, setTitle] = useState(post.title)

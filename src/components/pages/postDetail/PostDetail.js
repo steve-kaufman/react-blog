@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useParams } from 'react-router-dom'
 import './PostDetail.scss';
 
 import { Post } from '../..' 
@@ -10,8 +11,9 @@ export const PostDetail = (props) => {
   // Get posts from PostContext
   const [posts] = useContext(PostContext)
 
+  const params = useParams()
   // Ensure that a number is supplied as id
-  const id = Number(props.match.params.id)
+  const id = Number(params.id)
 
   // Look for post matching route id
   const post = posts.find(post => post.id === id)
