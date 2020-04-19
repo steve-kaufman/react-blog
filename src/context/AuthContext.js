@@ -1,5 +1,7 @@
 import React, { createContext, useReducer } from 'react'
 
+import { loginReducer, signupReducer } from '../reducers/auth'
+
 // dummy users
 const users = [
   {
@@ -26,15 +28,14 @@ const initialState = {
 }
 
 const reducer = (state, action) => {
-  switch (action.type) {
+  const { type, payload } = action
+  switch (type) {
     case 'login':
-      const { username, password } = action.payload
-      const user = users.find(user => user.username === username)
-      if (!user) return initialState
-      if (password !== user.password) return initialState
-      return { loggedIn: true, user }
+      return loginReducer(state, payload, users) || initialState
     case 'logout':
       return initialState
+    case 'signup':
+      return signupReducer(state, payload, users) || initialState
     default:
       throw new Error(`Action ${action} does not exist on AuthContext reducer`)
   }

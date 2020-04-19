@@ -11,7 +11,8 @@ import {
   NotFound,
   PostList, 
   PostDetail, 
-  PostUpdate 
+  PostUpdate,
+  Signup
 } from './components'
 
 import { AuthProvider, PostProvider, UIProvider } from './context'
@@ -27,7 +28,7 @@ function App() {
       <Router basename={baseUrl}>
         <AuthProvider>
           <UIProvider>
-          <Header />
+            <Header />
             <Switch>
               <Route exact path='/'>
                 <PostProvider>
@@ -46,6 +47,9 @@ function App() {
               </Route>
               <Route exact path='/login'>
                 <Login />
+              </Route>
+              <Route exact path='/signup'>
+                <Signup />
               </Route>
               <Route>
                 <NotFound />

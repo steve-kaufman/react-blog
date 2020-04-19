@@ -38,7 +38,7 @@ export const Header = () => {
             <Link to='/login'> Log In </Link>
           </li>
           <li className={`nav-link ${showClass}`}>
-            <Link to='/register'> Sign Up </Link>
+            <Link to='/signup'> Sign Up </Link>
           </li>
         </ul>
       </nav>

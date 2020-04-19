@@ -1,5 +1,6 @@
-import { setMenuOpen } from './setMenuOpen'
 import { login } from './login'
+import { signup } from './signup'
+import { setMenuOpen } from './setMenuOpen'
 import { updatePost } from './updatePost'
 
-export { setMenuOpen, login, updatePost }
+export { signup, setMenuOpen, login, updatePost }
