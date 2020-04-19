@@ -57,9 +57,14 @@ export const Header = () => {
               <Link to='/signup'> Sign Up </Link>
             </li>
           </> :
+          <>
+            <li className={`nav-link ${showClass}`}>
+              <Link to='/create'> New Post </Link>
+            </li> 
             <li className={`nav-link ${showClass}`}>
               <button onClick={logout}> Log Out </button>
             </li> 
+          </>
           }
         </ul>
       </nav>

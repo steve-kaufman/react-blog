@@ -1,7 +1,8 @@
+import { createPost } from './createPost'
 import { login } from './login'
 import { logout } from './logout'
-import { signup } from './signup'
 import { setMenuOpen } from './setMenuOpen'
+import { signup } from './signup'
 import { updatePost } from './updatePost'
 
-export { signup, setMenuOpen, login, logout, updatePost }
+export { createPost, login, logout, setMenuOpen, signup, updatePost }

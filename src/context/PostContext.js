@@ -1,4 +1,5 @@
 import React, { useReducer, createContext } from 'react'
+import { updateReducer, createReducer } from '../reducers/post'
 
 export const PostContext = createContext()
 
@@ -32,17 +33,14 @@ const intialState = [
   }
 ]
 
-const reducer = (posts, action) => {
-  switch (action.type) {
-    case 'update':
-      const { id, title, content } = action.payload
+const reducer = (state, action) => {
+  const { type, payload } = action
 
-      return posts.map(post => {
-        if (post.id === id) {
-          return { ...post, title, content }
-        }
-        return post
-      });
+  switch (type) {
+    case 'create':
+      return createReducer(state, payload)
+    case 'update':
+      return updateReducer(state, payload)
     default:
       throw new Error()
   }

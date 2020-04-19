@@ -16,6 +16,7 @@ import {
 } from './components'
 
 import { AuthProvider, PostProvider, UIProvider } from './context'
+import { PostCreate } from './components/pages/postCreate/PostCreate';
 
 function App() {
   const baseUrl = 
@@ -43,6 +44,11 @@ function App() {
               <Route exact path='/post/edit/:id'>
                 <PostProvider>
                   <PostUpdate />
+                </PostProvider>
+              </Route>
+              <Route exact path='/create'>
+                <PostProvider>
+                  <PostCreate />
                 </PostProvider>
               </Route>
               <Route exact path='/login'>
