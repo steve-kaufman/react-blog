@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Icon } from '@iconify/react'
+import './Post.scss'
 
 import thumbsOUp from '@iconify/icons-fa/thumbs-o-up'
 import thumbsUp from '@iconify/icons-fa/thumbs-up'
@@ -10,13 +11,17 @@ import thumbsDown from '@iconify/icons-fa/thumbs-down'
 
 import pencilIcon from '@iconify/icons-fa/pencil'
 
-import './Post.scss'
+import { AuthContext } from '../../context'
 
 export const Post = (props) => {
   const { id, title, content, author, style, short } = props
 
   const [isThumbUp, setThumbUp] = useState(false)
   const [isThumbDown, setThumbDown] = useState(false)
+
+  const [auth] = useContext(AuthContext)
+
+  const isAuthor = auth.user?.id === author.id
 
   const toggleThumbUp = () => {
     setThumbUp(!isThumbUp)
@@ -25,14 +30,18 @@ export const Post = (props) => {
     setThumbDown(!isThumbDown)
   }
 
+  const editLink = (
+    <Link to={`/post/edit/${id}`}>
+      <Icon 
+        icon={pencilIcon} 
+        width="1.2rem" height="1.2rem" />
+    </Link>
+  )
+
   return (
     <article className="post" style={style}>
       <header className="post-header">
-        <Link to={`/post/edit/${id}`}>
-          <Icon 
-            icon={pencilIcon} 
-            width="1.2rem" height="1.2rem" />
-        </Link>
+        {isAuthor ? editLink : null}
         <span className="author-link link">{ author.username }</span>
       </header>
       <aside className="post-controls">
