@@ -38,12 +38,12 @@
   }
 }
 
-.message-transition-arrive {
+.message-transition-appear {
   opacity: 0;
   transform: scale(0);
 }
 
-.message-transition-arrive-active {
+.message-transition-appear-active {
   opacity: 1;
   transform: scale(1);
 }

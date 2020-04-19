@@ -6,36 +6,39 @@ import './Page.scss'
 
 import { Messages } from './messages/Messages'
 
-import { UIContext } from '../../context'
+import { /*AuthContext,*/ UIContext } from '../../context'
 import { setMenuOpen } from '../../actions'
 
-export const Page = ({ className, children, messages, noTransition }) => {
+export const Page = ({ children, ...props }) => {
   const location = useLocation()
 
+  // const [auth] = useContext(AuthContext)
   const [ui, dispatch] = useContext(UIContext)
 
-  const items = [
-    <Messages messages={messages} />,
-    ...children
-  ]
-
-  useEffect(() => {
+  const refresh = () => {
     window.scrollTo(0, 0)
     if (ui.menuIsOpen) {
       dispatch(setMenuOpen(false))
     }
-  }, [location.pathname, messages])
+  }
 
-  if (noTransition) {
+  useEffect(refresh , [location.pathname, location.state, props.messages])
+
+  if (props.noTransition) {
     return (
-      <main id='page-main' className={className}>
+      <main id='page-main' className={props.className}>
         {children}
       </main>
     )
   }
 
+  const items = [
+    <Messages messages={props.messages || location.state?.messages} />,
+    ...children
+  ]
+
   return (
-    <main id='page-main' className={className}>
+    <main id='page-main' className={props.className}>
       <TransitionGroup appear={true} className='list-page'>
         {React.Children.map(items, (child, i) => { 
           const transitionDelay = i * 200

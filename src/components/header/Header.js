@@ -1,15 +1,29 @@
 import React, { useContext } from 'react'
-import { Link } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import './Header.scss'
 
-import { UIContext } from '../../context'
-import { setMenuOpen } from '../../actions'
+import { AuthContext, UIContext } from '../../context'
+import { setMenuOpen, logout as logoutAction } from '../../actions'
 
 export const Header = () => {
-  const [ui, dispatch] = useContext(UIContext)
+  const [auth, authDispatch] = useContext(AuthContext)
+  const [ui, uiDispatch] = useContext(UIContext)
+
+  const history = useHistory()
+
+  const logout = () => {
+    authDispatch(logoutAction())
+
+    history.replace({
+      pathname: '/',
+      state: {
+        messages: ['Logged out!']
+      }
+    })
+  }
 
   const toggleMenu = () => {
-    dispatch(setMenuOpen(!ui.menuIsOpen))
+    uiDispatch(setMenuOpen(!ui.menuIsOpen))
   }
 
   const showClass = ui.menuIsOpen ? "show" : ""
@@ -34,12 +48,19 @@ export const Header = () => {
           </li>
         </ul>
         <ul className="nav-link-list">
-          <li className={`nav-link ${showClass}`}>
-            <Link to='/login'> Log In </Link>
-          </li>
-          <li className={`nav-link ${showClass}`}>
-            <Link to='/signup'> Sign Up </Link>
-          </li>
+          {!auth.user ? 
+          <>
+            <li className={`nav-link ${showClass}`}>
+              <Link to='/login'> Log In </Link>
+            </li>
+            <li className={`nav-link ${showClass}`}>
+              <Link to='/signup'> Sign Up </Link>
+            </li>
+          </> :
+            <li className={`nav-link ${showClass}`}>
+              <button onClick={logout}> Log Out </button>
+            </li> 
+          }
         </ul>
       </nav>
     </header>

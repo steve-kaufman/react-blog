@@ -60,15 +60,12 @@
         transition-duration: 0.5s;
       }
 
-      a {
-        cursor: pointer;
-        @include easeOut;
+      cursor: pointer;
 
-        &:hover {
-          color: $secondary-color;
-          transition-delay: 0ms;
-          transition-duration: 0.2s;
-        }
+      &:hover {
+        color: $secondary-color;
+        transition-delay: 0ms;
+        transition-duration: 0.2s;
       }
     }
   }
