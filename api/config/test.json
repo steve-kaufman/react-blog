@@ -1,1 +1,3 @@
-{}
+{
+  "sqlite": "sqlite:test/test.db"
+}

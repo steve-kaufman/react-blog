@@ -1,10 +1,9 @@
 const { authenticate } = require('@feathersjs/authentication').hooks
 const { keep } = require('feathers-hooks-common')
 
-const requireSameUser = require('../../hooks/require-same-user')
 const associateUser = require('../../hooks/associate-user')
 
-const getLikes = require('../../hooks/get-likes');
+const disallowDuplicate = require('../../hooks/disallow-duplicate');
 
 module.exports = {
   before: {
@@ -12,18 +11,19 @@ module.exports = {
     find: [],
     get: [],
     create: [
-      associateUser(),
-      keep('title', 'content', 'userId')
+      associateUser(), 
+      keep('like', 'userId', 'postId'), 
+      disallowDuplicate('userId', 'postId')
     ],
-    update: [requireSameUser()],
-    patch: [requireSameUser()],
-    remove: [requireSameUser()]
+    update: [],
+    patch: [],
+    remove: []
   },
 
   after: {
     all: [],
-    find: [getLikes()],
-    get: [getLikes()],
+    find: [],
+    get: [],
     create: [],
     update: [],
     patch: [],

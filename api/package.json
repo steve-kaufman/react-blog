@@ -28,7 +28,8 @@
     "lint": "standard",
     "dev": "nodemon src/",
     "start": "node src/",
-    "jest": "jest  --forceExit"
+    "clean": "shx rm test/test.db",
+    "jest": "npm run clean && SET NODE_ENV=test& jest --watch"
   },
   "standard": {
     "env": [
@@ -57,8 +58,11 @@
   },
   "devDependencies": {
     "axios": "^0.19.2",
+    "feathers-hooks-common": "^5.0.2",
     "jest": "^25.3.0",
     "nodemon": "^2.0.3",
+    "nyc": "^15.0.1",
+    "shx": "^0.3.2",
     "standard": "^14.3.3"
   }
 }

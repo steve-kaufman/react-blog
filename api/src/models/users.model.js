@@ -33,6 +33,8 @@ module.exports = function (app) {
   users.associate = function (models) {
     // Define associations here
     // See http://docs.sequelizejs.com/en/latest/docs/associations/
+    users.hasMany(models.posts)
+    users.hasMany(models.likes)
   }
 
   return users

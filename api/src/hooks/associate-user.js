@@ -4,11 +4,9 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
-    const { userId } = await context.service.get(context.id)
+    const userId = context.params.user.id
 
-    if (context.params.user.id !== userId) {
-      throw new Error(`This object does not belong to ${context.params.user.email}`)
-    }
+    context.data = { ...context.data, userId }
 
     return context
   }

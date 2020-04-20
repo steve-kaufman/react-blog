@@ -1,5 +1,5 @@
 const { Service } = require('feathers-sequelize')
 
-exports.Posts = class Posts extends Service {
+exports.Likes = class Likes extends Service {
 
 }
