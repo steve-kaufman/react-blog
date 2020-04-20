@@ -1,8 +1,13 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
-// eslint-disable-next-line no-unused-vars
-
+/**
+ * Takes hook context and a post object, 
+ * returns number of likes and dislikes
+ * 
+ * @param {any} context 
+ * @param {any} post 
+ */
 const getLikes = async (context, post) => {
   console.log(post)
 
@@ -26,6 +31,7 @@ const getLikes = async (context, post) => {
 
 module.exports = (options = {}) => {
   return async context => {
+    // if this is a find request, do all results, else do single result
     if (Array.isArray(context.result.data)) {
       for (const post of context.result.data) {
         console.log(post)
