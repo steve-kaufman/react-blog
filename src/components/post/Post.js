@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Icon } from '@iconify/react'
@@ -12,24 +12,80 @@ import thumbsDown from '@iconify/icons-fa/thumbs-down'
 import pencilIcon from '@iconify/icons-fa/pencil'
 
 import { AuthContext } from '../../context'
+import api from '../../api'
 // import api from '../../api'
 
 export const Post = (props) => {
-  const { id, title, content, author, style, short } = props
+  // destructure props
+  const { post, isShort } = props
+  // destructure post information
+  const { id, title, content, user, style } = post
 
   const [auth] = useContext(AuthContext)
+
+  const [userLiked, setUserLiked] = useState(null)
 
   const [isThumbUp, setThumbUp] = useState(false)
   const [isThumbDown, setThumbDown] = useState(false)
 
+  const isAuthor = auth.user?.id === user.id
 
-  const isAuthor = auth.user?.id === author.id
+  useEffect(() => {
+    setUserLiked(props.post.userLiked)
+    console.log(props.post.userLiked)
+  }, [props.post.userLiked])
+  
+  // When the userLiked object is updated, update the icons
+  useEffect(() => {
+    setThumbUp(userLiked?.like)
+    setThumbDown(userLiked?.like === 0)
+  }, [userLiked])
 
   const toggleThumbUp = () => {
-    setThumbUp(!isThumbUp)
+    // if not logged in, do nothing
+    if (!auth.user) return
+
+    // if the user already liked, remove the like object
+    // else create a like object
+    if (userLiked?.like) {
+      api.service('likes').remove(userLiked.id)
+        .then(() => {
+          setUserLiked(null)
+        })
+    } else {
+      api.service('likes').create({
+        like: true,
+        postId: id
+      }).then(res => {
+        setUserLiked({
+          id: res.id,
+          like: res.like
+        })
+      })
+    }
   }
   const toggleThumbDown = () => {
-    setThumbDown(!isThumbDown)
+    // if not logged in, do nothing
+    if (!auth.user) return
+
+    // if user already disliked, remove the like object
+    // else create a like object
+    if (userLiked?.like === 0) {
+      api.service('likes').remove(userLiked.id)
+        .then(() => {
+          setUserLiked(null)
+        })
+    } else {
+      api.service('likes').create({
+        like: false,
+        postId: id
+      }).then(res => {
+        setUserLiked({
+          id: res.id,
+          like: res.like
+        })
+      })
+    }
   }
 
   const editLink = (
@@ -44,7 +100,7 @@ export const Post = (props) => {
     <article className="post" style={style}>
       <header className="post-header">
         {isAuthor ? editLink : null}
-        <span className="author-link link">{ author.email }</span>
+        <span className="author-link link">{ user.email }</span>
       </header>
       <aside className="post-controls">
         <span className="btn" onClick={toggleThumbUp}>
@@ -58,7 +114,7 @@ export const Post = (props) => {
             width="1.5rem" height="1.5rem" />
         </span>
       </aside>
-      <div className={'post-content' + (short ? ' short' : '')}>
+      <div className={'post-content' + (isShort ? ' short' : '')}>
         <Link to={`/post/${id}`}>
           <h3 className="post-title link">{ title }</h3>
         </Link>
@@ -69,8 +125,5 @@ export const Post = (props) => {
 }
 
 Post.propTypes = {
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  author: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired
 }

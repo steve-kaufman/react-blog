@@ -1,11 +1,11 @@
 const { authenticate } = require('@feathersjs/authentication').hooks
-const { keep, discard } = require('feathers-hooks-common')
+const { keep } = require('feathers-hooks-common')
 
 const requireSameUser = require('../../hooks/require-same-user')
 const associateUser = require('../../hooks/associate-user')
 const getLikes = require('../../hooks/get-likes')
 const getUser = require('../../hooks/get-user')
-const allowAnonymous = require('../../hooks/allow-anonymous');
+const allowAnonymous = require('../../hooks/allow-anonymous')
 
 module.exports = {
   before: {

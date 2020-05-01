@@ -33,7 +33,10 @@ const getLikes = async (context, post) => {
 
     // if post was (dis)liked by authenticated user, add 'userLiked' field
     if (likeObj.userId === context.params.user.id) {
-      post.userLiked = likeObj.like
+      post.userLiked = {
+        id: likeObj.id,
+        like: likeObj.like
+      }
     }
   })
 

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import './PostDetail.scss';
+import './PostDetail.scss'
 
 import { LoadingPage, Page, Post } from '../..'
-import api from '../../../api';
+import api from '../../../api'
 
 // import { PostContext } from '../../../context'
- 
+
 export const PostDetail = (props) => {
   const [post, setPost] = useState(null)
   const [messages, setMessages] = useState(null)
@@ -36,15 +36,15 @@ export const PostDetail = (props) => {
     return <LoadingPage />
   }
 
-  const { title, content, user } = post
+  // const { title, content, user } = post
 
   return (
     <Page>
-      <div className="page-title">
-        <h2>Post by {user.email}</h2>
+      <div className='page-title'>
+        <h2>Post by {post.user.email}</h2>
         <h3>Created at 3:00 PM</h3>
       </div>
-      <Post id={id} title={title} content={content} author={user} />
+      <Post post={post} />
     </Page>
   )
 }

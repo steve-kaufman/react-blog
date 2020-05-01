@@ -11,16 +11,16 @@ const initialState = { }
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(initialState)
 
-  api.on('authenticated', login => {
-    setAuth(login)
-  })
-
-  api.on('logout', () => {
-    setAuth(initialState)
-  })
-
   useEffect(() => {
     api.reAuthenticate().catch(() => {
+      setAuth(initialState)
+    })
+
+    api.on('authenticated', login => {
+      setAuth(login)
+    })
+
+    api.on('logout', () => {
       setAuth(initialState)
     })
   }, [])

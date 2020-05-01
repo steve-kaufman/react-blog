@@ -1,7 +1,7 @@
-const { 
-  AuthenticationService, 
-  JWTStrategy, 
-  AuthenticationBaseStrategy 
+const {
+  AuthenticationService,
+  JWTStrategy,
+  AuthenticationBaseStrategy
 } = require('@feathersjs/authentication')
 const { LocalStrategy } = require('@feathersjs/authentication-local')
 const { expressOauth } = require('@feathersjs/authentication-oauth')
@@ -9,7 +9,8 @@ const { expressOauth } = require('@feathersjs/authentication-oauth')
 class AnonymousStrategy extends AuthenticationBaseStrategy {
   async authenticate (authentication, params) {
     return {
-      anonymous: true
+      anonymous: true,
+      user: null
     }
   }
 }
