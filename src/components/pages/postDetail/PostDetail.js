@@ -23,7 +23,7 @@ export const PostDetail = (props) => {
   return (
     <Page>
       <div className="page-title">
-        <h2>Post by {author.username}</h2>
+        <h2>Post by {author.email}</h2>
         <h3>Created at 3:00 PM</h3>
       </div>
       <Post id={id} title={title} content={content} author={author} />

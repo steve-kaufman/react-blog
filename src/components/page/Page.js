@@ -33,7 +33,8 @@ export const Page = ({ children, ...props }) => {
   }
 
   const items = [
-    <Messages messages={props.messages || location.state?.messages} />,
+    <Messages messages={ props.messages || [] } />,
+    <Messages messages={ location.state?.messages || [] } />,
     ...children
   ]
 

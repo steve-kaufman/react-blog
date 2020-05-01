@@ -1,37 +1,55 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import './Login.scss'
 
 import { Page } from '../..'
 
 import { AuthContext } from '../../../context'
-import { login as loginAction } from '../../../actions'
+// import { login as loginAction } from '../../../actions'
+
+import api from '../../../api'
 
 export const Login = () => {
-  const [username, setUsername] = useState('')
+  const [email, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [usernameFocused, setUsernameFocused] = useState(false)
+  const [emailFocused, setUsernameFocused] = useState(false)
   const [passwordFocused, setPasswordFocused] = useState(false)
 
-  const [auth, dispatch] = useContext(AuthContext)
+  const [auth] = useContext(AuthContext)
+  const [success, setSuccess] = useState(false)
   const [cancelled, setCancelled] = useState(false)
 
   const [messages, setMessages] = useState([])
 
-  const login = () => {
-    dispatch(loginAction(username, password))
-
-    if (!auth.user) {
-      setMessages(['Incorrect username and/or password!'])
+  useEffect(() => {
+    if (auth.user) {
+      setSuccess(true)
     }
+  }, [auth])
+
+  const login = () => {
+    // dispatch(loginAction(email, password))
+    api.authenticate({
+      strategy: 'local',
+      email,
+      password
+    }).catch(() => {
+      setMessages([{
+        type: 'info',
+        content: 'Incorrect email and/or password!'
+      }])
+    })
   }
 
-  if (auth.user) {
+  if (success) {
     return <Redirect to={{
       pathname: '/',
       state: {
-        messages: [`Logged in as ${auth.user.username} !`]
+        messages: [{
+          type: 'success',
+          content: `Logged in as ${auth.user.email} !`
+        }]
       }
     }} />
   }
@@ -44,13 +62,13 @@ export const Login = () => {
     <Page className='login-page' messages={messages}>
       <header className='page-title'>
         <h2>Log In</h2>
-        <h3>Enter your username and password:</h3>
+        <h3>Enter your email and password:</h3>
       </header>
-      <div className={'form username-form ' + (usernameFocused ? 'focused' : '')}>
-        <label htmlFor='username-input'>username:</label>
+      <div className={'form email-form ' + (emailFocused ? 'focused' : '')}>
+        <label htmlFor='email-input'>email:</label>
         <input 
-          id='username-input' 
-          value={username}
+          id='email-input' 
+          value={email}
           onChange={e => setUsername(e.target.value)}
           onFocus={() => { setUsernameFocused(true) }}
           onBlur={() => setUsernameFocused(false)}

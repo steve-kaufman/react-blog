@@ -7,7 +7,7 @@ export const createReducer = (state, payload) => {
     content,
     author: {
       id: user.id,
-      username: user.username
+      email: user.email
     }
   }
 

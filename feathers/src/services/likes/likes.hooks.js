@@ -1,20 +1,25 @@
 const { authenticate } = require('@feathersjs/authentication').hooks
-const { iff, isProvider, disallow, discard, keep  } = require('feathers-hooks-common')
+const { iff, isProvider, disallow, discard, keep } = require('feathers-hooks-common')
 
 const associateUser = require('../../hooks/associate-user')
 const requireSameUser = require('../../hooks/require-same-user')
+const hideUserId = require('../../hooks/hide-user-id')
 
-const disallowDuplicate = require('../../hooks/disallow-duplicate');
+const disallowDuplicate = require('../../hooks/disallow-duplicate')
+
+const changeLike = require('../../hooks/change-like');
+
 
 module.exports = {
   before: {
     all: [authenticate('jwt')],
-    find: [iff(isProvider('external'), discard('userId'))],
-    get: [iff(isProvider('external'), discard('userId'))],
+    find: [],
+    get: [],
     create: [
-      associateUser(), 
-      keep('like', 'userId', 'postId'), 
-      disallowDuplicate('userId', 'postId')
+      associateUser(),
+      keep('like', 'userId', 'postId'),
+      disallowDuplicate('like', 'userId', 'postId'),
+      changeLike()
     ],
     update: [disallow('external')],
     patch: [requireSameUser(), keep('like')],
@@ -22,7 +27,7 @@ module.exports = {
   },
 
   after: {
-    all: [],
+    all: [iff(isProvider('external'), hideUserId())],
     find: [],
     get: [],
     create: [],

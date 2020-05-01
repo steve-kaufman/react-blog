@@ -1,4 +1,8 @@
-export const login = (username, password) => ({
+export const login = (email, password) => ({
   type: 'login',
-  payload: { username, password }
+  payload: { 
+    strategy: 'local',
+    email, 
+    password 
+  }
 })

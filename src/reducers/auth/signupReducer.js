@@ -1,18 +1,7 @@
-export const signupReducer = (state, payload, users) => {
-  const { username, password } = payload
+import api from '../../api'
 
-  // return undefined if user already exists
-  if (users.find(user => user.username === username)) return
-
-  // create a user
-  const user = {
-    id: Math.random(),
-    username, password
-  }
-
-  // add the user to users
-  users.push(user)
-
-  // log in with new user
-  return { loggedIn: true, user }
+export const signupReducer = async (state, payload) => {
+  await api.service('users').create(payload)
+  const login = await api.authenticate(payload)
+  return login
 }

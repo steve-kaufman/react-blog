@@ -26,8 +26,8 @@ function App() {
 
   return (
     <div className="App">
-      <Router basename={baseUrl}>
-        <AuthProvider>
+      <AuthProvider>
+        <Router basename={baseUrl}>
           <UIProvider>
             <Header />
             <Switch>
@@ -57,13 +57,16 @@ function App() {
               <Route exact path='/signup'>
                 <Signup />
               </Route>
+              <Route exact path='/u/:email'>
+                <PostList />
+              </Route>
               <Route>
                 <NotFound />
               </Route>
             </Switch>
           </UIProvider>
-        </AuthProvider>
-      </Router>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }

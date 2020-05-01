@@ -1,14 +1,9 @@
-export const loginReducer = (state, payload, users) => {
-  const { username, password } = payload
+import api from '../../api'
 
-  // find user with given username
-  const user = users.find(user => user.username === username)
-
-  // return undefined if user doesn't exist
-  if (!user) return
-  // return undefined if password doesn't match
-  if (password !== user.password) return
-
-  // log in
-  return { loggedIn: true, user }
+export const loginReducer = (state, payload, initialState) => {
+  const fetchingState = { ...initialState, status: 'fetching' }
+  api.authenticate(payload).then(login => {
+    fetchingState.login = login
+  })
+  return fetchingState
 }

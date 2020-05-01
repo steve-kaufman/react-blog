@@ -3,21 +3,25 @@ import { useHistory, Link } from 'react-router-dom'
 import './Header.scss'
 
 import { AuthContext, UIContext } from '../../context'
-import { setMenuOpen, logout as logoutAction } from '../../actions'
+import { setMenuOpen } from '../../actions'
+import api from '../../api'
 
 export const Header = () => {
-  const [auth, authDispatch] = useContext(AuthContext)
+  const [auth] = useContext(AuthContext)
   const [ui, uiDispatch] = useContext(UIContext)
 
   const history = useHistory()
 
   const logout = () => {
-    authDispatch(logoutAction())
+    api.logout()
 
     history.replace({
       pathname: '/',
       state: {
-        messages: ['Logged out!']
+        messages: [{
+          type: 'success',
+          content: 'Logged out!'
+        }]
       }
     })
   }

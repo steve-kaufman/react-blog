@@ -12,14 +12,16 @@ import thumbsDown from '@iconify/icons-fa/thumbs-down'
 import pencilIcon from '@iconify/icons-fa/pencil'
 
 import { AuthContext } from '../../context'
+// import api from '../../api'
 
 export const Post = (props) => {
   const { id, title, content, author, style, short } = props
 
+  const [auth] = useContext(AuthContext)
+
   const [isThumbUp, setThumbUp] = useState(false)
   const [isThumbDown, setThumbDown] = useState(false)
 
-  const [auth] = useContext(AuthContext)
 
   const isAuthor = auth.user?.id === author.id
 
@@ -42,7 +44,7 @@ export const Post = (props) => {
     <article className="post" style={style}>
       <header className="post-header">
         {isAuthor ? editLink : null}
-        <span className="author-link link">{ author.username }</span>
+        <span className="author-link link">{ author.email }</span>
       </header>
       <aside className="post-controls">
         <span className="btn" onClick={toggleThumbUp}>

@@ -32,7 +32,10 @@ export const PostUpdate = (props) => {
   }
 
   if (saved || cancelled) {
-    const messages = saved ? ['Post saved!'] : []
+    const messages = saved ? [{ 
+      type: 'success', 
+      content: 'Post saved!'
+    }] : []
 
     return <Redirect to={{
       pathname: `/post/${id}`,

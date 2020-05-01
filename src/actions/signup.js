@@ -1,4 +1,4 @@
-export const signup = (username, password) => ({
+export const signup = (email, password) => ({
   type: 'signup',
-  payload: { username, password }
+  payload: { email, password }
 })

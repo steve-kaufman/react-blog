@@ -1,46 +1,26 @@
-import React, { useReducer, createContext } from 'react'
-import { updateReducer, createReducer } from '../reducers/post'
+import React, { createContext, useReducer } from 'react'
+import api from '../api'
+// import { updateReducer, createReducer } from '../reducers/post'
+
+const service = api.service('posts')
 
 export const PostContext = createContext()
 
-const intialState = [
-  {
-    id: 1,
-    title: 'How to make the perfect omelete',
-    content: 'Step 1\nBreak the egg in to seven pieces, very yummy\nStep 2\nBeat it with a stick',
-    author: {
-      id: 1,
-      username: "steveplaysguiola"
-    }
-  },
-  {
-    id: 2,
-    title: 'Post 2',
-    content: 'This is the second post',
-    author: {
-      id: 2,
-      username: "joe_doe123"
-    }
-  },
-  {
-    id: 3,
-    title: 'Post 3',
-    content: 'This is the third post',
-    author: {
-      id: 1,
-      username: "steveplaysguiola"
-    }
-  }
-]
+const intialState = [ ]
 
-const reducer = (state, action) => {
+const reducer = async (state, action) => {
   const { type, payload } = action
 
   switch (type) {
+    case 'find':
+      const res = await service.find()
+      return res.data
     case 'create':
-      return createReducer(state, payload)
+      service.create(payload)
+      return state
     case 'update':
-      return updateReducer(state, payload)
+      service.patch(action.id, payload)
+      return state
     default:
       throw new Error()
   }

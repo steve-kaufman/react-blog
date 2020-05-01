@@ -8,10 +8,10 @@ import { AuthContext } from '../../../context'
 import { signup as signupAction } from '../../../actions'
 
 export const Signup = () => {
-  const [username, setUsername] = useState('')
+  const [email, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
-  const [usernameFocused, setUsernameFocused] = useState(false)
+  const [emailFocused, setUsernameFocused] = useState(false)
   const [passwordFocused, setPasswordFocused] = useState(false)
 
   const [auth, dispatch] = useContext(AuthContext)
@@ -20,10 +20,10 @@ export const Signup = () => {
   const [messages, setMessages] = useState([])
 
   const signup = () => {
-    dispatch(signupAction(username, password))
+    dispatch(signupAction(email, password))
 
     if (!auth.user) {
-      setMessages([`A user with the username ${username} already exists!`])
+      setMessages([`A user with the email ${email} already exists!`])
     }
   }
 
@@ -31,7 +31,10 @@ export const Signup = () => {
     return <Redirect to={{
       pathname: '/',
       state: {
-        messages: [`Logged in as ${auth.user.username} !`]
+        messages: [{
+          type: 'success',
+          content: `Logged in as ${auth.user.email} !`
+        }]
       }
     }} />
   }
@@ -44,13 +47,13 @@ export const Signup = () => {
     <Page className='login-page' messages={messages}>
       <header className='page-title'>
         <h2>Sign Up</h2>
-        <h3>Create a username and password:</h3>
+        <h3>Create a email and password:</h3>
       </header>
-      <div className={'form username-form ' + (usernameFocused ? 'focused' : '')}>
-        <label htmlFor='username-input'>username:</label>
+      <div className={'form email-form ' + (emailFocused ? 'focused' : '')}>
+        <label htmlFor='email-input'>email:</label>
         <input 
-          id='username-input' 
-          value={username}
+          id='email-input' 
+          value={email}
           onChange={e => setUsername(e.target.value)}
           onFocus={() => { setUsernameFocused(true) }}
           onBlur={() => setUsernameFocused(false)}
