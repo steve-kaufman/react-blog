@@ -4,9 +4,6 @@ import './PostUpdate.scss'
 
 import { LoadingPage, Page } from '../..'
 
-// import { PostContext } from '../../../context'
-
-// import { updatePost } from '../../../actions'
 import api from '../../../api'
 
 export const PostUpdate = (props) => {
@@ -14,15 +11,19 @@ export const PostUpdate = (props) => {
   const params = useParams()
   const id = Number(params.id)
 
+  // State for loading post
   const [post, setPost] = useState(null)
   const [error, setError] = useState(null)
 
+  // HTML input state
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
+  // UI state
   const [saved, setSaved] = useState(false)
   const [cancelled, setCancelled] = useState(false)
 
+  // Fetch the post on mount
   useEffect(() => {
     api.service('posts').get(id)
       .then(post => {
@@ -36,15 +37,18 @@ export const PostUpdate = (props) => {
       })
   }, [id])
 
+  // Update the HTML input state after post is loaded
   useEffect(() => {
+    // don't run on mount
     if (!post) return
 
+    // update state with post data
     setTitle(post.title)
     setContent(post.content)
   }, [post])
 
+  // Run when saved button is clicked
   const save = () => {
-    // dispatch(updatePost(id, title, content))
     api.service('posts').patch(id, {
       title, content
     }).then(() => {
@@ -52,23 +56,27 @@ export const PostUpdate = (props) => {
     })
   }
 
+  // Run when cancel button is clicked
   const cancel = () => {
-    setCancelled([])
+    setCancelled(true)
   }
 
+  // Return loading page when post is loading
   if (!post) {
     return <LoadingPage />
   }
 
+  // Return an empty page with error messages if there's an error
   if (error) {
     return <Page messages={[error]} />
   }
 
-  if (saved || cancelled) {
-    const messages = saved ? [{
+  // Redirect to PostDetail with success message when post is saved
+  if (saved) {
+    const messages = [{
       type: 'success',
       content: 'Post saved!'
-    }] : []
+    }]
 
     return (
       <Redirect
@@ -80,6 +88,12 @@ export const PostUpdate = (props) => {
     )
   }
 
+  // Redirect to PostDetail with no message when cancelled
+  if (cancelled) {
+    return <Redirect to={`/post/${id}`} />
+  }
+
+  // Post is loaded with no errors, user has not saved or cancelled
   return (
     <Page>
       <header className='page-title'>
