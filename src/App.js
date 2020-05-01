@@ -32,14 +32,10 @@ function App() {
             <Header />
             <Switch>
               <Route exact path='/'>
-                <PostProvider>
-                  <PostList />
-                </PostProvider>
+                <PostList />
               </Route>
               <Route exact path='/post/:id'>
-                <PostProvider>
-                  <PostDetail />
-                </PostProvider>
+                <PostDetail />
               </Route>
               <Route exact path='/post/edit/:id'>
                 <PostProvider>
@@ -47,9 +43,7 @@ function App() {
                 </PostProvider>
               </Route>
               <Route exact path='/create'>
-                <PostProvider>
-                  <PostCreate />
-                </PostProvider>
+                <PostCreate />
               </Route>
               <Route exact path='/login'>
                 <Login />
