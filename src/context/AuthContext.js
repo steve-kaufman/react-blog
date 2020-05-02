@@ -1,51 +1,32 @@
-import React, { createContext, useReducer } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
 
-import { loginReducer, signupReducer } from '../reducers/auth'
-
-// dummy users
-const users = [
-  {
-    id: 1,
-    username: 'steveplaysguiola',
-    password: '1234'
-  },
-  {
-    id: 2,
-    username: 'joe_doe123',
-    password: '4321'
-  }
-]
+import api from '../api'
 
 /** Context */
 
 export const AuthContext = createContext()
 
-// anonymous user
-const initialState = {
-  loggedIn: false,
-  user: null,
-  error: null
-}
-
-const reducer = (state, action) => {
-  const { type, payload } = action
-  switch (type) {
-    case 'login':
-      return loginReducer(state, payload, users) || initialState
-    case 'logout':
-      return initialState
-    case 'signup':
-      return signupReducer(state, payload, users) || initialState
-    default:
-      throw new Error(`Action ${action} does not exist on AuthContext reducer`)
-  }
-}
+const initialState = { }
 
 export const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState)
+  const [auth, setAuth] = useState(initialState)
+
+  useEffect(() => {
+    api.reAuthenticate().catch(() => {
+      setAuth(initialState)
+    })
+
+    api.on('authenticated', login => {
+      setAuth(login)
+    })
+
+    api.on('logout', () => {
+      setAuth(initialState)
+    })
+  }, [])
 
   return (
-    <AuthContext.Provider value={[state, dispatch]}>
+    <AuthContext.Provider value={[auth]}>
       {children}
     </AuthContext.Provider>
   )

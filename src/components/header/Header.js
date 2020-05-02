@@ -3,22 +3,26 @@ import { useHistory, Link } from 'react-router-dom'
 import './Header.scss'
 
 import { AuthContext, UIContext } from '../../context'
-import { setMenuOpen, logout as logoutAction } from '../../actions'
+import { setMenuOpen } from '../../actions'
+import api from '../../api'
 
 export const Header = () => {
-  const [auth, authDispatch] = useContext(AuthContext)
+  const [auth] = useContext(AuthContext)
   const [ui, uiDispatch] = useContext(UIContext)
 
   const history = useHistory()
 
   const logout = () => {
-    authDispatch(logoutAction())
-
-    history.replace({
-      pathname: '/',
-      state: {
-        messages: ['Logged out!']
-      }
+    api.logout().then(() => {
+      history.replace({
+        pathname: '/',
+        state: {
+          messages: [{
+            type: 'success',
+            content: 'Logged out!'
+          }]
+        }
+      })
     })
   }
 
@@ -26,46 +30,49 @@ export const Header = () => {
     uiDispatch(setMenuOpen(!ui.menuIsOpen))
   }
 
-  const showClass = ui.menuIsOpen ? "show" : ""
+  const showClass = ui.menuIsOpen ? 'show' : ''
 
   return (
-    <header id="page-header">
+    <header id='page-header'>
       <Link to='/'>
-        <span className="header-title">React Blog</span>
+        <span className='header-title'>React Blog</span>
       </Link>
       <div className={`menu-btn ${showClass}`} onClick={toggleMenu}>
-        <div className="btn-line"></div>
-        <div className="btn-line"></div>
-        <div className="btn-line"></div>
+        <div className='btn-line' />
+        <div className='btn-line' />
+        <div className='btn-line' />
       </div>
       <nav className={`menu ${showClass}`}>
-        <ul className="nav-link-list">
+        <ul className='nav-link-list'>
           <li className={`nav-link ${showClass}`}>
-            <Link to='/'> Home </Link> 
+            <Link to='/'> Home </Link>
           </li>
           <li className={`nav-link ${showClass}`}>
             <Link to='/about'> About </Link>
           </li>
         </ul>
-        <ul className="nav-link-list">
-          {!auth.user ? 
-          <>
-            <li className={`nav-link ${showClass}`}>
-              <Link to='/login'> Log In </Link>
-            </li>
-            <li className={`nav-link ${showClass}`}>
-              <Link to='/signup'> Sign Up </Link>
-            </li>
-          </> :
-          <>
-            <li className={`nav-link ${showClass}`}>
-              <Link to='/create'> New Post </Link>
-            </li> 
-            <li className={`nav-link ${showClass}`}>
-              <button onClick={logout}> Log Out </button>
-            </li> 
-          </>
-          }
+        <ul className='nav-link-list'>
+          {!auth.user
+            ? (
+              <>
+                <li className={`nav-link ${showClass}`}>
+                  <Link to='/login'> Log In </Link>
+                </li>
+                <li className={`nav-link ${showClass}`}>
+                  <Link to='/signup'> Sign Up </Link>
+                </li>
+              </>
+            )
+            : (
+              <>
+                <li className={`nav-link ${showClass}`}>
+                  <Link to='/create'> New Post </Link>
+                </li>
+                <li className={`nav-link ${showClass}`}>
+                  <button onClick={logout}> Log Out </button>
+                </li>
+              </>
+            )}
         </ul>
       </nav>
     </header>

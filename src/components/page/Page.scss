@@ -9,6 +9,10 @@ main#page-main {
   }
 }
 
+h3 {
+  font-size: 1.4rem;
+}
+
 .page-item-appear {
   opacity: 0;
   transform: translate(-100%, 0);
@@ -16,6 +20,17 @@ main#page-main {
 }
 
 .page-item-appear-active {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+.page-item-enter {
+  opacity: 0;
+  transform: translate(-100%, 0);
+  transition: all 700ms ease-out;
+}
+
+.page-item-enter-active {
   opacity: 1;
   transform: translate(0, 0);
 }

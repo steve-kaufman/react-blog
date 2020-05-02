@@ -3,27 +3,29 @@ const { keep } = require('feathers-hooks-common')
 
 const requireSameUser = require('../../hooks/require-same-user')
 const associateUser = require('../../hooks/associate-user')
-
-const getLikes = require('../../hooks/get-likes');
+const getLikes = require('../../hooks/get-likes')
+const getUser = require('../../hooks/get-user')
+const allowAnonymous = require('../../hooks/allow-anonymous')
 
 module.exports = {
   before: {
-    all: [authenticate('jwt')],
-    find: [],
-    get: [],
+    all: [],
+    find: [allowAnonymous(), authenticate('jwt', 'anonymous')],
+    get: [allowAnonymous(), authenticate('jwt', 'anonymous')],
     create: [
+      authenticate('jwt'),
       associateUser(),
       keep('title', 'content', 'userId')
     ],
-    update: [requireSameUser()],
-    patch: [requireSameUser()],
-    remove: [requireSameUser()]
+    update: [authenticate('jwt'), requireSameUser()],
+    patch: [authenticate('jwt'), requireSameUser()],
+    remove: [authenticate('jwt'), requireSameUser()]
   },
 
   after: {
-    all: [],
-    find: [getLikes()],
-    get: [getLikes()],
+    all: [getUser(), getLikes()],
+    find: [],
+    get: [],
     create: [],
     update: [],
     patch: [],

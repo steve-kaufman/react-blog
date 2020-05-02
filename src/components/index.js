@@ -1,4 +1,5 @@
 import { Header } from './header/Header'
+import { LoadingPage } from './pages/loadingPage/LoadingPage'
 import { Login } from './pages/login/Login'
 import { NotFound } from './pages/notFound/NotFound'
 import { Page } from './page/Page'
@@ -10,6 +11,7 @@ import { Signup } from './pages/signup/Signup'
 
 export {
   Header, 
+  LoadingPage,
   Login,
   NotFound,
   Page, 

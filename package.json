@@ -15,7 +15,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build-production": "SET PUBLIC_URL=/react-blog/& npm run build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -33,11 +34,17 @@
     ]
   },
   "devDependencies": {
+    "@feathersjs/authentication-client": "^4.5.3",
+    "@feathersjs/client": "^4.5.4",
+    "@feathersjs/feathers": "^4.5.3",
+    "@feathersjs/socketio-client": "^4.5.3",
     "@iconify/icons-fa": "^1.0.2",
     "@iconify/react": "^1.1.3",
     "moment": "^2.24.0",
     "node-sass": "^4.13.1",
     "react-router-dom": "^5.1.2",
-    "react-transition-group": "^4.3.0"
+    "react-transition-group": "^4.3.0",
+    "socket.io-client": "^2.3.0",
+    "standard": "^14.3.3"
   }
 }

@@ -2,29 +2,43 @@
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 
 /**
- * Takes hook context and a post object, 
+ * Takes hook context and a post object,
  * returns number of likes and dislikes
- * 
- * @param {any} context 
- * @param {any} post 
+ *
+ * @param {any} context
+ * @param {any} post
  */
 const getLikes = async (context, post) => {
-  console.log(post)
+  // get collection of like objects for this post
+  const queryResult = await context.app.service('likes').find({
+    query: { postId: post.id }
+  })
 
-  const queryResult = await context.app.service('likes').find({ query: {
-    postId: post.id
-  } })
-
+  // initialize counters
   let likes = 0
   let dislikes = 0
 
   queryResult.data.forEach(likeObj => {
+    // if the like property is true, add to likes, else add to dislikes
     if (likeObj.like) {
       likes++
     } else {
       dislikes++
     }
-  });
+
+    // if not authenticated, don't check for user association
+    if (!context.params.user) {
+      return
+    }
+
+    // if post was (dis)liked by authenticated user, add 'userLiked' field
+    if (likeObj.userId === context.params.user.id) {
+      post.userLiked = {
+        id: likeObj.id,
+        like: likeObj.like
+      }
+    }
+  })
 
   return [likes, dislikes]
 }
@@ -32,9 +46,8 @@ const getLikes = async (context, post) => {
 module.exports = (options = {}) => {
   return async context => {
     // if this is a find request, do all results, else do single result
-    if (Array.isArray(context.result.data)) {
+    if (context.method === 'find') {
       for (const post of context.result.data) {
-        console.log(post)
         const [likes, dislikes] = await getLikes(context, post)
 
         post.likes = likes
@@ -47,6 +60,6 @@ module.exports = (options = {}) => {
       context.result.dislikes = dislikes
     }
 
-    return context;
-  };
-};
+    return context
+  }
+}

@@ -1,4 +1,5 @@
 const app = require('../src/app')
+const { clean } = require('./testUtils')
 
 describe('authentication', () => {
   it('registered the authentication service', () => {
@@ -12,9 +13,12 @@ describe('authentication', () => {
     }
 
     beforeAll(async () => {
+      await clean()
+
       try {
         await app.service('users').create(userInfo)
       } catch (error) {
+        // console.error(error)
         // Do nothing, it just means the user already exists and can be tested
       }
     })

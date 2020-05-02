@@ -44,6 +44,8 @@ app.configure(middleware)
 app.configure(authentication)
 // Set up our services (see `services/index.js`)
 app.configure(services)
+// Sync database models
+sequelize.sync()
 // Set up event channels (see channels.js)
 app.configure(channels)
 

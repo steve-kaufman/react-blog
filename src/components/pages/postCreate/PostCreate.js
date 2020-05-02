@@ -4,15 +4,14 @@ import './PostCreate.scss';
 
 import { Page } from '../..'
 
-import { AuthContext, PostContext } from '../../../context'
+import { AuthContext } from '../../../context'
 
-import { createPost } from '../../../actions'
+// import { createPost } from '../../../actions'
+import api from '../../../api'
  
 export const PostCreate = (props) => {
-  const [posts, dispatch] = useContext(PostContext)
+  // const [posts, dispatch] = useContext(PostContext)
   const [auth] = useContext(AuthContext)
-  // Ensure that a number is supplied as id
-  const { user } = auth
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
@@ -20,24 +19,46 @@ export const PostCreate = (props) => {
   const [saved, setSaved] = useState(false)
   const [cancelled, setCancelled] = useState(false)
 
+  const [postId, setPostId] = useState(null)
+
   const save = () => {
-    dispatch(createPost(title, content, user))
-    setSaved(true)
+    // dispatch(createPost(title, content, user))
+    api.service('posts').create({
+      title, content
+    }).then(post => {
+      setPostId(post.id)
+      setSaved(true)
+    })
   }
 
   const cancel = () => {
-    setCancelled([])
+    setCancelled(true)
   }
 
-  if (saved || cancelled) {
-    const messages = saved ? ['Post saved!'] : []
+  if (!auth.user) {
+    return <Redirect to={{
+      pathname: '/login',
+      state: { messages: [{
+        type: 'info',
+        content: 'You must log in to create a post!'
+      }] }
+    }} />
+  }
 
-    const id = posts[posts.length - 1].id
+  if (saved) {
+    const messages = [{
+      type: 'success',
+      content: 'Post saved!'
+    }]
 
     return <Redirect to={{
-      pathname: `/post/${id}`,
+      pathname: `/post/${postId}`,
       state: { messages }
     }} />
+  }
+
+  if (cancelled) {
+    return <Redirect to='/' />
   }
 
   return (

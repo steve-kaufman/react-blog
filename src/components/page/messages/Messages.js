@@ -19,15 +19,13 @@ export const Messages = (props) => {
     setMessages(messages.filter((message, index) => i !== index))
   }
 
-  if (!messages) return null
-
   return (
-    <TransitionGroup component={null}>
+    <TransitionGroup component={null} appear={true}>
       {messages.map((message, i) => (
         <CSSTransition timeout={500} classNames='message-transition' key={i}>
-          <div className="message">
+          <div className={`message message-${message.type}`}>
             <p>
-              {message}
+              {message.content}
               <button onClick={() => { deleteMessage(i) }}>
                 <Icon icon={closeIcon} />
               </button>

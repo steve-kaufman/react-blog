@@ -4,10 +4,17 @@
 // eslint-disable-next-line no-unused-vars
 module.exports = (options = {}) => {
   return async context => {
-    const userId = context.params.user.id
+    const { params } = context;
 
-    context.data = { ...context.data, userId }
+    if(params.provider && !params.authentication) {
+      context.params = {
+        ...params,
+        authentication: {
+          strategy: 'anonymous'
+        }
+      }
+    }
 
-    return context
-  }
-}
+    return context;
+  };
+};

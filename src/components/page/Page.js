@@ -6,13 +6,12 @@ import './Page.scss'
 
 import { Messages } from './messages/Messages'
 
-import { /*AuthContext,*/ UIContext } from '../../context'
+import { UIContext } from '../../context'
 import { setMenuOpen } from '../../actions'
 
-export const Page = ({ children, ...props }) => {
+export const Page = (props) => {
   const location = useLocation()
 
-  // const [auth] = useContext(AuthContext)
   const [ui, dispatch] = useContext(UIContext)
 
   const refresh = () => {
@@ -24,6 +23,8 @@ export const Page = ({ children, ...props }) => {
 
   useEffect(refresh , [location.pathname, location.state, props.messages])
 
+  const children = props.children || []
+
   if (props.noTransition) {
     return (
       <main id='page-main' className={props.className}>
@@ -32,15 +33,12 @@ export const Page = ({ children, ...props }) => {
     )
   }
 
-  const items = [
-    <Messages messages={props.messages || location.state?.messages} />,
-    ...children
-  ]
-
   return (
     <main id='page-main' className={props.className}>
+      <Messages messages={ props.messages || [] } />
+      <Messages messages={ location.state?.messages || [] } />
       <TransitionGroup appear={true} className='list-page'>
-        {React.Children.map(items, (child, i) => { 
+        {React.Children.map(children, (child, i) => { 
           const transitionDelay = i * 200
           return <CSSTransition key={i} timeout={800 + transitionDelay} classNames='page-item'>
             { React.cloneElement(child, {style: {
