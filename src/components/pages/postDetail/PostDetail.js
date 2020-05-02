@@ -11,8 +11,6 @@ export const PostDetail = (props) => {
   const params = useParams()
   const id = Number(params.id)
 
-  if (!id) console.log({ id })
-
   // Get post from API
   const [post, error] = useApi('get', 'posts', id)
 
@@ -27,8 +25,8 @@ export const PostDetail = (props) => {
   return (
     <Page>
       <div className='page-title'>
-        <h2>Post by {post.user.email}</h2>
-        <h3>Created at 3:00 PM</h3>
+        <h3 style={{ marginBottom: '0.5rem' }}>Post by {post.user.email}</h3>
+        <h3 className='text-secondary-light'>Created at 3:00 PM</h3>
       </div>
       <Post post={post} />
     </Page>

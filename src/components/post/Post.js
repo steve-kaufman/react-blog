@@ -13,7 +13,51 @@ import pencilIcon from '@iconify/icons-fa/pencil'
 
 import { AuthContext } from '../../context'
 import api from '../../api'
-// import api from '../../api'
+
+// Handles state of thumbs up/down
+const useLikeState = (post, auth) => {
+  // Keep track of like object id
+  const [likeId, setLikeId] = useState(null)
+
+  // Thumbs up/down state
+  const [thumbs, setThumbs] = useState({ up: false, down: false })
+
+  useEffect(() => {
+    if (!post) return
+    if (!post.userLiked) return
+
+    setLikeId(post.userLiked.id)
+    setThumbs({
+      up: post.userLiked.like === 1,
+      down: post.userLiked.like === 0
+    })
+  }, [post])
+
+  // Toggle thumbs 'up' or 'down'
+  const toggleThumb = async (thumb) => {
+    // if not logged in, do nothing
+    if (!auth.user) return
+
+    if (thumbs[thumb]) {
+      // Remove like object
+      await api.service('likes').remove(likeId)
+      // Thumb is neither up or down
+      setThumbs({ ...thumbs, [thumb]: false })
+    } else {
+      // Create like object
+      const result = await api.service('likes').create({
+        like: true,
+        postId: post.id
+      })
+      // Set thumb up/down
+      setThumbs({ ...thumbs, [thumb]: true })
+      // Keep track of new like object id
+      setLikeId(result.id)
+    }
+  }
+
+  return [thumbs, toggleThumb]
+}
 
 export const Post = (props) => {
   // destructure props
@@ -21,103 +65,52 @@ export const Post = (props) => {
   // destructure post information
   const { id, title, content, user } = post
 
+  // User authentication context
   const [auth] = useContext(AuthContext)
 
-  const [userLiked, setUserLiked] = useState(null)
+  // Create like state
+  const [thumbs, toggleThumb] = useLikeState(post, auth)
 
-  const [isThumbUp, setThumbUp] = useState(false)
-  const [isThumbDown, setThumbDown] = useState(false)
+  // Determine if logged in user is the author
+  const isAuthor = (auth.user) // Is user logged in?
+    ? (auth.user.id === user.id) // Does user match post author?
+    : false
 
-  const isAuthor = auth.user?.id === user.id
-
-  useEffect(() => {
-    setUserLiked(props.post.userLiked)
-  }, [props.post.userLiked])
-  
-  // When the userLiked object is updated, update the icons
-  useEffect(() => {
-    setThumbUp(userLiked?.like)
-    setThumbDown(userLiked?.like === 0)
-  }, [userLiked])
-
-  const toggleThumbUp = () => {
-    // if not logged in, do nothing
-    if (!auth.user) return
-
-    // if the user already liked, remove the like object
-    // else create a like object
-    if (userLiked?.like) {
-      api.service('likes').remove(userLiked.id)
-        .then(() => {
-          setUserLiked(null)
-        })
-    } else {
-      api.service('likes').create({
-        like: true,
-        postId: id
-      }).then(res => {
-        setUserLiked({
-          id: res.id,
-          like: res.like
-        })
-      })
-    }
-  }
-  const toggleThumbDown = () => {
-    // if not logged in, do nothing
-    if (!auth.user) return
-
-    // if user already disliked, remove the like object
-    // else create a like object
-    if (userLiked?.like === 0) {
-      api.service('likes').remove(userLiked.id)
-        .then(() => {
-          setUserLiked(null)
-        })
-    } else {
-      api.service('likes').create({
-        like: false,
-        postId: id
-      }).then(res => {
-        setUserLiked({
-          id: res.id,
-          like: res.like
-        })
-      })
-    }
-  }
-
-  const editLink = (
+  // If logged in user is author, add an edit-post link
+  const editLink = isAuthor ? (
     <Link to={`/post/edit/${id}`}>
-      <Icon 
-        icon={pencilIcon} 
-        width="1.2rem" height="1.2rem" />
+      <Icon
+        icon={pencilIcon}
+        width='1.2rem' height='1.2rem'
+      />
     </Link>
-  )
+  ) : null
 
   return (
-    <article className="post" style={style}>
-      <header className="post-header">
-        {isAuthor ? editLink : null}
-        <span className="author-link link">{ user.email }</span>
+    <article className='post' style={style}>
+      <header className='post-header'>
+        {editLink}
+        <span className='author-link link'>{user.email}</span>
       </header>
-      <aside className="post-controls">
-        <span className="btn" onClick={toggleThumbUp}>
-          <Icon 
-            icon={isThumbUp ? thumbsUp : thumbsOUp} 
-            width="1.5rem" height="1.5rem" />
+      <aside className='post-controls'>
+        <span className='btn' onClick={() => { toggleThumb('up') }}>
+          <Icon
+            icon={thumbs.up ? thumbsUp : thumbsOUp}
+            width='1.5rem' height='1.5rem'
+          />
         </span>
-        <span className="btn" onClick={toggleThumbDown}>
-          <Icon 
-            icon={isThumbDown ? thumbsDown : thumbsODown} 
-            width="1.5rem" height="1.5rem" />
+        <span className='btn' onClick={() => { toggleThumb('down') }}>
+          <Icon
+            icon={thumbs.down ? thumbsDown : thumbsODown}
+            width='1.5rem' height='1.5rem'
+          />
         </span>
       </aside>
       <div className={'post-content' + (isShort ? ' short' : '')}>
         <Link to={`/post/${id}`}>
-          <h3 className="post-title link">{ title }</h3>
+          <h3 className='post-title link'>{title}</h3>
         </Link>
-        <p>{ content }</p>
+        <p>{content}</p>
       </div>
     </article>
   )
