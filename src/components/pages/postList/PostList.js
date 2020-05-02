@@ -1,30 +1,28 @@
-import React, { useState, useEffect, useContext } from 'react'
-import api from '../../../api'
+import React from 'react'
 import moment from 'moment'
 import './PostList.scss'
 
-import { Post, Page } from '../..'
-import { useLocation } from 'react-router-dom'
+import { LoadingPage, Post, Page } from '../..'
 
-import { AuthContext } from '../../../context'
+import { useApi } from '../../../hooks/useApi'
 
 export const PostList = () => {
-  // const [posts, dispatch] = useContext(PostContext)
-  const [auth] = useContext(AuthContext)
+  // Get posts and potential errors from API
+  const [posts, error] = useApi('find', 'posts')
 
-  const location = useLocation()
+  // If there's an error return a blank page with error messages
+  if (error) {
+    return <Page messages={[error]} />
+  }
 
-  const [posts, setPosts] = useState([])
+  // If posts aren't loaded return loading page
+  if (!posts) {
+    return <LoadingPage />
+  }
 
-  useEffect(() => {
-    api.service('posts').find().then(res => {
-      console.log(res)
-      setPosts(res.data)
-    })
+  /* Posts are loaded! */
 
-    console.log('fetching posts')
-  }, [location.state, auth])
-
+  // Get current date and time
   const currentTime = moment().format('MMMM Do YYYY, h:mm a')
 
   return (
@@ -33,20 +31,9 @@ export const PostList = () => {
         <h2 className=''>Recent Posts:</h2>
         <h4 className='text-secondary-light'>{currentTime}</h4>
       </header>
-      {posts.map((post, i) => {
-        // const { id, title, content, user } = post
-        return (
-          <Post
-            post={post}
-            isShort
-            key={i}
-            // id={id}
-            // title={title}
-            // content={content}
-            // author={user}
-          />
-        )
-      })}
+      {posts.map((post, i) => (
+        <Post post={post} isShort key={i} />
+      ))}
     </Page>
   )
 }

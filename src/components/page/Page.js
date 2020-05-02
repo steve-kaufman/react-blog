@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { useLocation } from 'react-router-dom'
 
@@ -6,13 +6,12 @@ import './Page.scss'
 
 import { Messages } from './messages/Messages'
 
-import { /*AuthContext,*/ UIContext } from '../../context'
+import { UIContext } from '../../context'
 import { setMenuOpen } from '../../actions'
 
 export const Page = (props) => {
   const location = useLocation()
 
-  // const [auth] = useContext(AuthContext)
   const [ui, dispatch] = useContext(UIContext)
 
   const refresh = () => {

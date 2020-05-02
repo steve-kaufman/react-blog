@@ -1,42 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import './PostDetail.scss'
 
 import { LoadingPage, Page, Post } from '../..'
-import api from '../../../api'
 
-// import { PostContext } from '../../../context'
+import { useApi } from '../../../hooks/useApi'
 
 export const PostDetail = (props) => {
-  const [post, setPost] = useState(null)
-  const [messages, setMessages] = useState(null)
-
-  const params = useParams()
   // Ensure that a number is supplied as id
+  const params = useParams()
   const id = Number(params.id)
 
-  useEffect(() => {
-    api.service('posts').get(id)
-      .then(result => {
-        setPost(result)
-      })
-      .catch(() => {
-        setMessages([{
-          type: 'info',
-          content: "I'm sorry, we can't find that post!"
-        }])
-      })
-  }, [id])
+  if (!id) console.log({ id })
 
-  if (messages) {
-    return <Page messages={messages} />
+  // Get post from API
+  const [post, error] = useApi('get', 'posts', id)
+
+  if (error) {
+    return <Page messages={[error]} />
   }
 
   if (!post) {
     return <LoadingPage />
   }
-
-  // const { title, content, user } = post
 
   return (
     <Page>

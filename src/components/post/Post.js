@@ -17,9 +17,9 @@ import api from '../../api'
 
 export const Post = (props) => {
   // destructure props
-  const { post, isShort } = props
+  const { post, isShort, style } = props
   // destructure post information
-  const { id, title, content, user, style } = post
+  const { id, title, content, user } = post
 
   const [auth] = useContext(AuthContext)
 
@@ -32,7 +32,6 @@ export const Post = (props) => {
 
   useEffect(() => {
     setUserLiked(props.post.userLiked)
-    console.log(props.post.userLiked)
   }, [props.post.userLiked])
   
   // When the userLiked object is updated, update the icons

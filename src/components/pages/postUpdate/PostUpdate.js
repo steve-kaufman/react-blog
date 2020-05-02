@@ -5,15 +5,15 @@ import './PostUpdate.scss'
 import { LoadingPage, Page } from '../..'
 
 import api from '../../../api'
+import { useApi } from '../../../hooks/useApi'
 
 export const PostUpdate = (props) => {
   // Ensure that a number is supplied as id
   const params = useParams()
   const id = Number(params.id)
 
-  // State for loading post
-  const [post, setPost] = useState(null)
-  const [error, setError] = useState(null)
+  // Get post from API
+  const [post, error] = useApi('get', 'posts', id)
 
   // HTML input state
   const [title, setTitle] = useState('')
@@ -23,23 +23,9 @@ export const PostUpdate = (props) => {
   const [saved, setSaved] = useState(false)
   const [cancelled, setCancelled] = useState(false)
 
-  // Fetch the post on mount
-  useEffect(() => {
-    api.service('posts').get(id)
-      .then(post => {
-        setPost(post)
-      })
-      .catch(() => {
-        setError({
-          type: 'info',
-          content: 'That post does not exist'
-        })
-      })
-  }, [id])
-
   // Update the HTML input state after post is loaded
   useEffect(() => {
-    // don't run on mount
+    // don't run until post exists
     if (!post) return
 
     // update state with post data
@@ -61,14 +47,14 @@ export const PostUpdate = (props) => {
     setCancelled(true)
   }
 
-  // Return loading page when post is loading
-  if (!post) {
-    return <LoadingPage />
-  }
-
   // Return an empty page with error messages if there's an error
   if (error) {
     return <Page messages={[error]} />
+  }
+
+  // Return loading page when post is loading
+  if (!post) {
+    return <LoadingPage />
   }
 
   // Redirect to PostDetail with success message when post is saved
