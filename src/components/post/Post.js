@@ -1,7 +1,8 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Icon } from '@iconify/react'
+import moment from 'moment'
 import './Post.scss'
 
 import thumbsOUp from '@iconify/icons-fa/thumbs-o-up'
@@ -12,52 +13,8 @@ import thumbsDown from '@iconify/icons-fa/thumbs-down'
 import pencilIcon from '@iconify/icons-fa/pencil'
 
 import { AuthContext } from '../../context'
-import api from '../../api'
 
-// Handles state of thumbs up/down
-const useLikeState = (post, auth) => {
-  // Keep track of like object id
-  const [likeId, setLikeId] = useState(null)
-
-  // Thumbs up/down state
-  const [thumbs, setThumbs] = useState({ up: false, down: false })
-
-  useEffect(() => {
-    if (!post) return
-    if (!post.userLiked) return
-
-    setLikeId(post.userLiked.id)
-    setThumbs({
-      up: post.userLiked.like === 1,
-      down: post.userLiked.like === 0
-    })
-  }, [post])
-
-  // Toggle thumbs 'up' or 'down'
-  const toggleThumb = async (thumb) => {
-    // if not logged in, do nothing
-    if (!auth.user) return
-
-    if (thumbs[thumb]) {
-      // Remove like object
-      await api.service('likes').remove(likeId)
-      // Thumb is neither up or down
-      setThumbs({ ...thumbs, [thumb]: false })
-    } else {
-      // Create like object
-      const result = await api.service('likes').create({
-        like: true,
-        postId: post.id
-      })
-      // Set thumb up/down
-      setThumbs({ ...thumbs, [thumb]: true })
-      // Keep track of new like object id
-      setLikeId(result.id)
-    }
-  }
-
-  return [thumbs, toggleThumb]
-}
+import { usePost } from '../../hooks/usePost'
 
 export const Post = (props) => {
   // destructure props
@@ -69,7 +26,7 @@ export const Post = (props) => {
   const [auth] = useContext(AuthContext)
 
   // Create like state
-  const [thumbs, toggleThumb] = useLikeState(post, auth)
+  const { thumbs, toggleThumb, likes, dislikes } = usePost(post, auth)
 
   // Determine if logged in user is the author
   const isAuthor = (auth.user) // Is user logged in?
@@ -86,32 +43,40 @@ export const Post = (props) => {
     </Link>
   ) : null
 
+  // weird date format with space before UTC offset?
+  post.createdAt = post.createdAt.replace(' +', '+')
+
+  const createdAt = moment.utc(post.createdAt)
+
   return (
     <article className='post' style={style}>
       <header className='post-header'>
         {editLink}
+        <p>{createdAt.calendar()}</p>
         <span className='author-link link'>{user.email}</span>
       </header>
       <aside className='post-controls'>
         <span className='btn' onClick={() => { toggleThumb('up') }}>
           <Icon
             icon={thumbs.up ? thumbsUp : thumbsOUp}
-            width='1.5rem' height='1.5rem'
+            width='1.2rem' height='1.2rem'
           />
+          <p>{likes}</p>
         </span>
         <span className='btn' onClick={() => { toggleThumb('down') }}>
           <Icon
             icon={thumbs.down ? thumbsDown : thumbsODown}
-            width='1.5rem' height='1.5rem'
+            width='1.2rem' height='1.2rem'
           />
+          <p>{dislikes}</p>
         </span>
       </aside>
-      <div className={'post-content' + (isShort ? ' short' : '')}>
+      <main className={'post-content' + (isShort ? ' short' : '')}>
         <Link to={`/post/${id}`}>
           <h3 className='post-title link'>{title}</h3>
         </Link>
         <p>{content}</p>
-      </div>
+      </main>
     </article>
   )
 }

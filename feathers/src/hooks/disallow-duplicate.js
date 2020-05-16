@@ -16,7 +16,7 @@ module.exports = (...uniqueFields) => {
     // look for pre-existing object 
     const queryResult = await context.service.find({ query })
 
-    const duplicates = queryResult.data
+    const duplicates = queryResult
 
     // if there is a pre-existing object, don't allow service
     if (duplicates.length) {

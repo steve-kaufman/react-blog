@@ -9,13 +9,13 @@ module.exports = (options = {}) => {
       postId: context.data.postId 
     }})
     
-    if (!queryResult.data.length) {
+    if (!queryResult.length) {
       // like object does not exist, continue with create method
       return context
     }
 
     // like object already exists, patch instead
-    const like = await context.service.patch(queryResult.data[0].id, {
+    const like = await context.service.patch(queryResult[0].id, {
       like: context.data.like
     }, { user: context.params.user })
 
