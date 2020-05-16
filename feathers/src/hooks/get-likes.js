@@ -18,8 +18,6 @@ const getLikes = async (context, post) => {
   let likes = 0
   let dislikes = 0
 
-  if (post.id === 1) console.log(queryResult)
-
   queryResult.forEach(likeObj => {
     // if the like property is true, add to likes, else add to dislikes
     if (likeObj.like) {
@@ -32,12 +30,7 @@ const getLikes = async (context, post) => {
 
     // if not authenticated, don't check for user association
     if (!context.params.user) {
-      console.log('not logged in')
       return
-    }
-
-    if (likeObj.postId === 1 && likeObj.userId === 13) {
-      console.log('user 13 has liked post 1')
     }
 
     // if post was (dis)liked by authenticated user, add 'userLiked' field
