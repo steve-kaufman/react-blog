@@ -1,65 +1,64 @@
-import React, { useState, useContext } from 'react'
-import { Redirect } from 'react-router-dom'
+import React, { useState, useContext, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import './PostCreate.scss';
 
 import { Page } from '../..'
 
-import { AuthContext } from '../../../context'
+import { AuthContext, UIContext } from '../../../context'
 
-// import { createPost } from '../../../actions'
 import api from '../../../api'
+import { queueMessages } from '../../../actions';
  
 export const PostCreate = (props) => {
-  // const [posts, dispatch] = useContext(PostContext)
-  const [auth] = useContext(AuthContext)
+  // Router history object
+  const history = useHistory()
 
+  // Auth context state
+  const [auth] = useContext(AuthContext)
+  // UI context dispatch
+  const [, dispatch] = useContext(UIContext)
+
+  // Input state
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
-  const [saved, setSaved] = useState(false)
-  const [cancelled, setCancelled] = useState(false)
-
-  const [postId, setPostId] = useState(null)
-
-  const save = () => {
-    // dispatch(createPost(title, content, user))
-    api.service('posts').create({
+  /**
+   * Creates new post and redirects user to PostDetail
+   */
+  const save = async () => {
+    const post = await api.service('posts').create({
       title, content
-    }).then(post => {
-      setPostId(post.id)
-      setSaved(true)
     })
-  }
 
-  const cancel = () => {
-    setCancelled(true)
-  }
-
-  if (!auth.user) {
-    return <Redirect to={{
-      pathname: '/login',
-      state: { messages: [{
-        type: 'info',
-        content: 'You must log in to create a post!'
-      }] }
-    }} />
-  }
-
-  if (saved) {
-    const messages = [{
+    dispatch(queueMessages([{
       type: 'success',
       content: 'Post saved!'
-    }]
+    }]))
 
-    return <Redirect to={{
-      pathname: `/post/${postId}`,
-      state: { messages }
-    }} />
+    history.push(`/post/${post.id}`)
   }
 
-  if (cancelled) {
-    return <Redirect to='/' />
+  /**
+   * Returns user to previous page
+   */
+  const cancel = () => {
+    history.goBack()
   }
+
+  /**
+   * Redirects user to login page if not authenticated
+   */
+  useEffect(() => {
+    if (!auth.user) {
+      history.replace('/login')
+      return () => {
+        dispatch(queueMessages([{
+          type: 'info',
+          content: 'You must log in to create a post!'
+        }]))
+      }
+    }
+  }, [auth.user, dispatch, history])
 
   return (
     <Page>

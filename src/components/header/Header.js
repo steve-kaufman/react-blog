@@ -3,30 +3,49 @@ import { useHistory, Link } from 'react-router-dom'
 import './Header.scss'
 
 import { AuthContext, UIContext } from '../../context'
-import { setMenuOpen, queueMessages } from '../../actions'
+import { setMenuOpen, queueMessages, setMessages } from '../../actions'
 import api from '../../api'
 
 export const Header = () => {
-  const [auth] = useContext(AuthContext)
-  const [ui, uiDispatch] = useContext(UIContext)
-
+  // Router history object
   const history = useHistory()
 
-  const logout = () => {
-    api.logout().then(() => {
-      uiDispatch(setMenuOpen(false))
-      uiDispatch(queueMessages([{
-        type: 'success',
-        content: 'Logged out!'
-      }]))
+  // Auth context state
+  const [auth] = useContext(AuthContext)
+  // UI context
+  const [ui, uiDispatch] = useContext(UIContext)
+
+  /**
+   * Logs out user, redirects to home page with sucess message
+   */
+  const logout = async () => {
+    await api.logout()
+
+    uiDispatch(setMenuOpen(false))
+
+    const messages = [{
+      type: 'success',
+      content: 'Logged out!'
+    }]
+
+    // If already on home page redirect won't work
+    if (history.location.pathname === '/') {
+      uiDispatch(setMessages(messages))
+    }
+    else {
+      uiDispatch(queueMessages(messages))
       history.push({ pathname: '/' })
-    })
+    }
   }
 
+  /**
+   * Toggles whether menu is collapsed or open
+   */
   const toggleMenu = () => {
     uiDispatch(setMenuOpen(!ui.menuIsOpen))
   }
 
+  // Class to add to menu items when menu is open
   const showClass = ui.menuIsOpen ? 'show' : ''
 
   return (
@@ -57,6 +76,9 @@ export const Header = () => {
                 </li>
                 <li className={`nav-link ${showClass}`}>
                   <Link to='/signup'> Sign Up </Link>
+                </li>
+                <li className={`nav-link ${showClass}`}>
+                  <Link to='/create'> Create </Link>
                 </li>
               </>
             )

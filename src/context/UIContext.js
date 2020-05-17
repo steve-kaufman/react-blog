@@ -43,7 +43,7 @@ const reducer = (state, action) => {
         queuedMessages: []
       }
     default:
-      throw new Error(`Action ${action.type} does not exist for UIContext reducer`)
+      throw new Error(`Action ${action.type} does not exist`)
   }
 }
 

@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { Redirect, useParams } from 'react-router-dom'
+import React, { useState, useEffect, useContext } from 'react'
+import { useParams, useHistory } from 'react-router-dom'
 import './PostUpdate.scss'
 
 import { LoadingPage, Page } from '../..'
 
 import api from '../../../api'
 import { useApi } from '../../../hooks/useApi'
+import { UIContext } from '../../../context'
+import { queueMessages } from '../../../actions'
 
 export const PostUpdate = (props) => {
+  // Router history object
+  const history = useHistory()
+  // UI context dispatch
+  const [, uiDispatch] = useContext(UIContext)
+
   // Ensure that a number is supplied as id
   const params = useParams()
   const id = Number(params.id)
@@ -18,10 +25,6 @@ export const PostUpdate = (props) => {
   // HTML input state
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-
-  // UI state
-  const [saved, setSaved] = useState(false)
-  const [cancelled, setCancelled] = useState(false)
 
   // Update the HTML input state after post is loaded
   useEffect(() => {
@@ -34,17 +37,18 @@ export const PostUpdate = (props) => {
   }, [post])
 
   // Run when saved button is clicked
-  const save = () => {
-    api.service('posts').patch(id, {
-      title, content
-    }).then(() => {
-      setSaved(true)
-    })
+  const save = async () => {
+    await api.service('posts').patch(id, { title, content })
+    uiDispatch(queueMessages([{
+      type: 'success',
+      content: 'Post saved!'
+    }]))
+    history.push(`/post/${id}`)
   }
 
   // Run when cancel button is clicked
   const cancel = () => {
-    setCancelled(true)
+    history.push(`/post/${id}`)
   }
 
   // Return an empty page with error messages if there's an error
@@ -58,26 +62,26 @@ export const PostUpdate = (props) => {
   }
 
   // Redirect to PostDetail with success message when post is saved
-  if (saved) {
-    const messages = [{
-      type: 'success',
-      content: 'Post saved!'
-    }]
+  // if (saved) {
+  //   const messages = [{
+  //     type: 'success',
+  //     content: 'Post saved!'
+  //   }]
 
-    return (
-      <Redirect
-        to={{
-          pathname: `/post/${id}`,
-          state: { messages }
-        }}
-      />
-    )
-  }
+  //   return (
+  //     <Redirect
+  //       to={{
+  //         pathname: `/post/${id}`,
+  //         state: { messages }
+  //       }}
+  //     />
+  //   )
+  // }
 
   // Redirect to PostDetail with no message when cancelled
-  if (cancelled) {
-    return <Redirect to={`/post/${id}`} />
-  }
+  // if (cancelled) {
+  //   return <Redirect to={`/post/${id}`} />
+  // }
 
   // Post is loaded with no errors, user has not saved or cancelled
   return (

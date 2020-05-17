@@ -1,16 +1,22 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import './Signup.scss'
+
+import api from '../../../api'
 
 import { Page } from '../..'
 
-import { AuthContext } from '../../../context'
-// import { signup as signupAction } from '../../../actions'
-import api from '../../../api'
+import { AuthContext, UIContext } from '../../../context'
+import { queueMessages, setMessages } from '../../../actions'
 
 export const Signup = () => {
-  // User authentication context
+  // Router history object
+  const history = useHistory()
+
+  // Auth context state
   const [auth] = useContext(AuthContext)
+  // UI context dispatch
+  const [, uiDispatch] = useContext(UIContext)
 
   // HTML input state
   const [email, setEmail] = useState('')
@@ -20,51 +26,45 @@ export const Signup = () => {
   const [isEmailFocused, setEmailFocused] = useState(false)
   const [isPasswordFocused, setPasswordFocused] = useState(false)
 
-  // UI state
-  const [cancelled, setCancelled] = useState(false)
-  const [success, setSuccess] = useState(null)
-  const [error, setError] = useState(null)
-  // const [messages, setMessages] = useState([])
-
-  const signup = () => {
-    // dispatch(signupAction(email, password))
-    api.service('users').create({
-      email, password
-    }).then(user => {
+  /**
+   * Registers user and logs them in
+   * or gives an error message if registration fails
+   */
+  const signup = async () => {
+    try {
+      await api.service('users').create({
+        email, password
+      })
       api.authenticate({ strategy: 'local', email, password })
-    }).catch(() => {
-      setError([`A user with the email ${email} already exists!`])
-    })
+    } catch (e) {
+      uiDispatch(setMessages([{
+        type: 'info',
+        content: `A user with the email ${email} already exists!`
+      }]))
+    }
   }
 
+  /**
+   * Returns user to previous page
+   */
+  const cancel = () => {
+    history.goBack()
+  }
+
+  // Redirects user to home with success message after log in
   useEffect(() => {
     if (!auth.user) return
 
-    setSuccess([{
+    uiDispatch(queueMessages([{
       type: 'success',
       content: `Logged in as ${auth.user.email} !`
-    }])
-  }, [auth])
+    }]))
 
-  if (success) {
-    return (
-      <Redirect
-        to={{
-          pathname: '/',
-          state: {
-            messages: success
-          }
-        }}
-      />
-    )
-  }
-
-  if (cancelled) {
-    return <Redirect to='/' />
-  }
+    history.push('/')
+  }, [auth, uiDispatch, history])
 
   return (
-    <Page className='login-page' messages={error}>
+    <Page className='login-page'>
       <header className='page-title'>
         <h2>Sign Up</h2>
         <h3>Create a email and password:</h3>
@@ -99,7 +99,7 @@ export const Signup = () => {
         <button className='btn save-btn' onClick={signup}>Sign Up</button>
         <button
           className='btn cancel-btn'
-          onClick={() => { setCancelled(true) }}
+          onClick={() => { cancel() }}
         > Cancel
         </button>
       </div>

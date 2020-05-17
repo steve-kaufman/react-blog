@@ -1,4 +1,4 @@
 export const setMessages = (messages) => ({
-  type: 'queueMessages',
+  type: 'setMessages',
   payload: messages
 })
