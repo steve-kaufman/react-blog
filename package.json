@@ -16,7 +16,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build-production": "SET PUBLIC_URL=/react-blog/& npm run build"
+    "build-production": "PUBLIC_URL=/react-blog/ yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"

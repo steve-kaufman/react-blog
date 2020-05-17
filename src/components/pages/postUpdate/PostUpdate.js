@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
+import moment from 'moment'
 import './PostUpdate.scss'
 
 import { LoadingPage, Page } from '../..'
@@ -12,6 +13,7 @@ import { queueMessages } from '../../../actions'
 export const PostUpdate = (props) => {
   // Router history object
   const history = useHistory()
+
   // UI context dispatch
   const [, uiDispatch] = useContext(UIContext)
 
@@ -36,7 +38,9 @@ export const PostUpdate = (props) => {
     setContent(post.content)
   }, [post])
 
-  // Run when saved button is clicked
+  /**
+   * Updates post and then redirects to PostDetail with success message
+   */
   const save = async () => {
     await api.service('posts').patch(id, { title, content })
     uiDispatch(queueMessages([{
@@ -46,9 +50,11 @@ export const PostUpdate = (props) => {
     history.push(`/post/${id}`)
   }
 
-  // Run when cancel button is clicked
+  /**
+   * Returns user to previous page
+   */
   const cancel = () => {
-    history.push(`/post/${id}`)
+    history.goBack()
   }
 
   // Return an empty page with error messages if there's an error
@@ -61,34 +67,18 @@ export const PostUpdate = (props) => {
     return <LoadingPage />
   }
 
-  // Redirect to PostDetail with success message when post is saved
-  // if (saved) {
-  //   const messages = [{
-  //     type: 'success',
-  //     content: 'Post saved!'
-  //   }]
-
-  //   return (
-  //     <Redirect
-  //       to={{
-  //         pathname: `/post/${id}`,
-  //         state: { messages }
-  //       }}
-  //     />
-  //   )
-  // }
-
-  // Redirect to PostDetail with no message when cancelled
-  // if (cancelled) {
-  //   return <Redirect to={`/post/${id}`} />
-  // }
+  // Fix weird space before UTC offset
+  post.updatedAt = post.updatedAt.replace(' +', '+')
+  const updatedAt = moment(post.updatedAt)
 
   // Post is loaded with no errors, user has not saved or cancelled
   return (
     <Page>
       <header className='page-title'>
         <h2>Update your post</h2>
-        <h3>Last change made at 3:00 PM</h3>
+        <h3 className='text-secondary-light'>
+          Last Updated {updatedAt.calendar()}
+        </h3>
       </header>
       <div className='title-form'>
         <h3>Title:</h3>
