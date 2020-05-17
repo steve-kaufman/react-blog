@@ -1,23 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 // import { useLocation } from 'react-router-dom'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import './Messages.scss'
 import { Icon } from '@iconify/react';
 import closeIcon from '@iconify/icons-fa/close';
+import { UIContext } from '../../../context';
+import { deleteMessage } from '../../../actions';
 
 export const Messages = (props) => {
-  // const location = useLocation()
+  const [uiState, dispatch] = useContext(UIContext)
 
-  const [messages, setMessages] = useState([])
-
-  useEffect(() => {
-    setMessages(props.messages)
-  }, [props.messages])
-
-
-  const deleteMessage = (i) => {
-    setMessages(messages.filter((message, index) => i !== index))
-  }
+  const { messages } = uiState
 
   return (
     <TransitionGroup component={null} appear={true}>
@@ -26,7 +19,7 @@ export const Messages = (props) => {
           <div className={`message message-${message.type}`}>
             <p>
               {message.content}
-              <button onClick={() => { deleteMessage(i) }}>
+              <button onClick={() => { dispatch(deleteMessage(i)) }}>
                 <Icon icon={closeIcon} />
               </button>
             </p>

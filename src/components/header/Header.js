@@ -3,7 +3,7 @@ import { useHistory, Link } from 'react-router-dom'
 import './Header.scss'
 
 import { AuthContext, UIContext } from '../../context'
-import { setMenuOpen } from '../../actions'
+import { setMenuOpen, queueMessages } from '../../actions'
 import api from '../../api'
 
 export const Header = () => {
@@ -14,15 +14,12 @@ export const Header = () => {
 
   const logout = () => {
     api.logout().then(() => {
-      history.replace({
-        pathname: '/',
-        state: {
-          messages: [{
-            type: 'success',
-            content: 'Logged out!'
-          }]
-        }
-      })
+      uiDispatch(setMenuOpen(false))
+      uiDispatch(queueMessages([{
+        type: 'success',
+        content: 'Logged out!'
+      }]))
+      history.push({ pathname: '/' })
     })
   }
 

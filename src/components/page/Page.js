@@ -12,16 +12,32 @@ import { setMenuOpen } from '../../actions'
 export const Page = (props) => {
   const location = useLocation()
 
-  const [ui, dispatch] = useContext(UIContext)
+  const [uiState, dispatch] = useContext(UIContext)
 
-  const refresh = () => {
+  // const refresh = () => {
+  //   window.scrollTo(0, 0)
+  //   if (ui.menuIsOpen) {
+  //     dispatch(setMenuOpen(false))
+  //   }
+  // }
+
+  // useEffect(refresh , [location.pathname, location.state, props.messages])
+
+  // useEffect(() => {
+  //   if (history.location.state?.messages) {
+  //     setLocationMessages()
+
+  //     history.replace(
+  //       history.location.pathname, 
+  //       { ...history.location.state, messages: undefined }
+  //     )
+  //   }
+  // }, [history])
+
+  useEffect(() => {
     window.scrollTo(0, 0)
-    if (ui.menuIsOpen) {
-      dispatch(setMenuOpen(false))
-    }
-  }
-
-  useEffect(refresh , [location.pathname, location.state, props.messages])
+    dispatch(setMenuOpen(false))
+  }, [dispatch, location.pathname])
 
   const children = props.children || []
 
@@ -35,8 +51,8 @@ export const Page = (props) => {
 
   return (
     <main id='page-main' className={props.className}>
-      <Messages messages={ props.messages || [] } />
-      <Messages messages={ location.state?.messages || [] } />
+      <Messages messages={uiState.messages} />
+      {/* <Messages messages={ history.location.state?.messages || [] } /> */}
       <TransitionGroup appear={true} className='list-page'>
         {React.Children.map(children, (child, i) => { 
           const transitionDelay = i * 200
