@@ -2,11 +2,11 @@ import React, { useState, useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import './PostCreate.scss';
 
+import api from '../../../api'
+
 import { Page } from '../..'
 
 import { AuthContext, UIContext } from '../../../context'
-
-import api from '../../../api'
 import { queueMessages } from '../../../actions';
  
 export const PostCreate = (props) => {

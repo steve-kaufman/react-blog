@@ -12,16 +12,21 @@ export const PostDetail = (props) => {
   const params = useParams()
   const id = Number(params.id)
 
-  // Get post from API
+  // Get post and potential errors from API
   const [post, error] = useApi('get', 'posts', id)
 
+
+  // If there's an error return a blank page with error messages
   if (error) {
     return <Page messages={[error]} />
   }
 
+  // If posts aren't loaded return loading page
   if (!post) {
     return <LoadingPage />
   }
+
+  /* Post is loaded! */
 
   // Fix weird space before UTC adjustment
   post.updatedAt = post.updatedAt.replace(' +', '+')

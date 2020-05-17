@@ -21,7 +21,7 @@ export const PostUpdate = (props) => {
   const params = useParams()
   const id = Number(params.id)
 
-  // Get post from API
+  // Get post and potential errors from API
   const [post, error] = useApi('get', 'posts', id)
 
   // HTML input state
@@ -57,15 +57,17 @@ export const PostUpdate = (props) => {
     history.goBack()
   }
 
-  // Return an empty page with error messages if there's an error
+  // If there's an error return a blank page with error messages
   if (error) {
     return <Page messages={[error]} />
   }
 
-  // Return loading page when post is loading
+  // If posts aren't loaded return loading page
   if (!post) {
     return <LoadingPage />
   }
+
+  /* Post is loaded! */
 
   // Fix weird space before UTC offset
   post.updatedAt = post.updatedAt.replace(' +', '+')

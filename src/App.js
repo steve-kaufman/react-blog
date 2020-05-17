@@ -19,15 +19,10 @@ import { AuthProvider, UIProvider } from './context'
 import { PostCreate } from './components/pages/postCreate/PostCreate';
 
 function App() {
-  const baseUrl = 
-    (process.env.NODE_ENV === 'production') 
-    ? 'react-blog' 
-    : '/'
-
   return (
     <div className="App">
       <AuthProvider>
-        <Router basename={baseUrl}>
+        <Router basename={process.env.PUBLIC_URL || '/'}>
           <UIProvider>
             <Header />
             <Switch>

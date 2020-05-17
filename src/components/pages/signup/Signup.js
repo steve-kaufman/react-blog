@@ -22,7 +22,7 @@ export const Signup = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  // State for CSS :focus styling
+  // CSS :focus state
   const [isEmailFocused, setEmailFocused] = useState(false)
   const [isPasswordFocused, setPasswordFocused] = useState(false)
 

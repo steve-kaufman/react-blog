@@ -2,25 +2,32 @@ import React, { useState, useContext } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import './Login.scss'
 
+import api from '../../../api'
+
 import { Page } from '../..'
 
 import { UIContext } from '../../../context'
-// import { login as loginAction } from '../../../actions'
-
-import api from '../../../api'
 import { setMessages, queueMessages } from '../../../actions'
 
 export const Login = () => {
+  // Router history object
   const history = useHistory()
 
+  // UI context dispatch
   const [, uiDispatch] = useContext(UIContext)
 
+  // HTML input state
   const [email, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  // CSS :focus state
   const [emailFocused, setUsernameFocused] = useState(false)
   const [passwordFocused, setPasswordFocused] = useState(false)
 
+  /**
+   * Authenticate user and redirect to home with success message
+   * or display error message if authentication fails
+   */
   const login = async () => {
     // dispatch(loginAction(email, password))
     try {
@@ -42,8 +49,11 @@ export const Login = () => {
     }
   }
 
+  /**
+   * Return user to previous page
+   */
   const cancel = () => {
-    history.push('/')
+    history.goBack()
   }
 
   return (

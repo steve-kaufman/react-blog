@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react'
 import api from '../api'
 
 export const useApi = (method, service, ...options) => {
+  // Result
   const [obj, setObj] = useState(null)
+  // Errors 
   const [error, setError] = useState(null)
 
+  // Fetches object when component mounts
   useEffect(() => {
     if (obj || error) return
 

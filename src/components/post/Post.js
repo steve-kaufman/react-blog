@@ -43,9 +43,8 @@ export const Post = (props) => {
     </Link>
   ) : null
 
-  // weird date format with space before UTC offset?
+  // Fix weird space before UTC offset
   post.createdAt = post.createdAt.replace(' +', '+')
-
   const createdAt = moment.utc(post.createdAt)
 
   return (

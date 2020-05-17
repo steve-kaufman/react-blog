@@ -12,6 +12,7 @@ export const usePost = (initialPost, auth) => {
   const [likes, setLikes] = useState(null)
   const [dislikes, setDislikes] = useState(null)
 
+  // Updates thumbs and likes when post object changes
   useEffect(() => {
     if (!post) return
 
@@ -23,11 +24,12 @@ export const usePost = (initialPost, auth) => {
     setDislikes(post.dislikes)
   }, [post])
 
+  // Fetches post when component mounts
   useEffect(() => {
-    const updatePost = async () => {
+    const getPost = async () => {
       setPost(await api.service('posts').get(post.id))
     }
-    updatePost()
+    getPost()
   }, [auth.user, post.id])
 
   /** 

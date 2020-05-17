@@ -10,49 +10,35 @@ import { UIContext } from '../../context'
 import { setMenuOpen } from '../../actions'
 
 export const Page = (props) => {
+  // Router location object
   const location = useLocation()
 
-  const [uiState, dispatch] = useContext(UIContext)
+  // UI context
+  const [uiState, uiDispatch] = useContext(UIContext)
 
-  // const refresh = () => {
-  //   window.scrollTo(0, 0)
-  //   if (ui.menuIsOpen) {
-  //     dispatch(setMenuOpen(false))
-  //   }
-  // }
-
-  // useEffect(refresh , [location.pathname, location.state, props.messages])
-
-  // useEffect(() => {
-  //   if (history.location.state?.messages) {
-  //     setLocationMessages()
-
-  //     history.replace(
-  //       history.location.pathname, 
-  //       { ...history.location.state, messages: undefined }
-  //     )
-  //   }
-  // }, [history])
-
+  // Close menu and go to top of page when location changes (refresh)
   useEffect(() => {
     window.scrollTo(0, 0)
-    dispatch(setMenuOpen(false))
-  }, [dispatch, location.pathname])
+    uiDispatch(setMenuOpen(false))
+  }, [uiDispatch, location.pathname])
 
+  // If children are not passed, use blank array
   const children = props.children || []
 
+  // If noTransition is specified, don't add transitions to children
   if (props.noTransition) {
     return (
       <main id='page-main' className={props.className}>
+        <Messages messages={uiState.messages} />
         {children}
       </main>
     )
   }
 
+  // Wrap each child in a transition with an incrementing delay
   return (
     <main id='page-main' className={props.className}>
       <Messages messages={uiState.messages} />
-      {/* <Messages messages={ history.location.state?.messages || [] } /> */}
       <TransitionGroup appear={true} className='list-page'>
         {React.Children.map(children, (child, i) => { 
           const transitionDelay = i * 200
