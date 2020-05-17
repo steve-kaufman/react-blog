@@ -15,7 +15,7 @@ import {
   Signup
 } from './components'
 
-import { AuthProvider, PostProvider, UIProvider } from './context'
+import { AuthProvider, UIProvider } from './context'
 import { PostCreate } from './components/pages/postCreate/PostCreate';
 
 function App() {
@@ -38,9 +38,7 @@ function App() {
                 <PostDetail />
               </Route>
               <Route exact path='/post/edit/:id'>
-                <PostProvider>
-                  <PostUpdate />
-                </PostProvider>
+                <PostUpdate />
               </Route>
               <Route exact path='/create'>
                 <PostCreate />

@@ -40,11 +40,17 @@ export const Page = (props) => {
       <TransitionGroup appear={true} className='list-page'>
         {React.Children.map(children, (child, i) => { 
           const transitionDelay = i * 200
-          return <CSSTransition key={i} timeout={800 + transitionDelay} classNames='page-item'>
-            { React.cloneElement(child, {style: {
-              transitionDelay: transitionDelay + 'ms'
-            }}) }
-          </CSSTransition>
+          return (
+            <CSSTransition 
+              key={i} 
+              timeout={800 + transitionDelay} 
+              classNames='page-item'
+            >
+              { React.cloneElement(child, {
+                style: { transitionDelay: transitionDelay + 'ms' },
+              }) }
+            </CSSTransition>
+          )
         })}
       </TransitionGroup>
     </main>

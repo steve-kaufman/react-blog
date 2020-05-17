@@ -15,8 +15,6 @@ export const usePost = (initialPost, auth) => {
   useEffect(() => {
     if (!post) return
 
-    if (post.title === 'Post 1') console.log(post.userLiked)
-
     setThumbs({
       up: post.userLiked?.like === 1,
       down: post.userLiked?.like === 0
