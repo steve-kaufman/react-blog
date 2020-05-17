@@ -77,9 +77,6 @@ export const Header = () => {
                 <li className={`nav-link ${showClass}`}>
                   <Link to='/signup'> Sign Up </Link>
                 </li>
-                <li className={`nav-link ${showClass}`}>
-                  <Link to='/create'> Create </Link>
-                </li>
               </>
             )
             : (

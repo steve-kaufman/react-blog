@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import moment from 'moment'
 import './PostDetail.scss'
 
 import { LoadingPage, Page, Post } from '../..'
@@ -22,11 +23,17 @@ export const PostDetail = (props) => {
     return <LoadingPage />
   }
 
+  // Fix weird space before UTC adjustment
+  post.updatedAt = post.updatedAt.replace(' +', '+')
+  const updatedAt = moment(post.updatedAt)
+
   return (
     <Page>
       <div className='page-title'>
         <h3 style={{ marginBottom: '0.5rem' }}>Post by {post.user.email}</h3>
-        <h3 className='text-secondary-light'>Created at 3:00 PM</h3>
+        <h3 className='text-secondary-light'>
+          Last Updated {updatedAt.calendar()}
+        </h3>
       </div>
       <Post post={post} />
     </Page>
