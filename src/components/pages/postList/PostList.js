@@ -42,6 +42,7 @@ export const PostList = () => {
     // Reset posts and error to make sure they reload
     setPosts(null)
     setPostsError(false)
+    // Reset users and error to make sure it reloads
     setUsers(null)
     setUsersError(false)
   }, [params, setPosts, setPostsError, setUsers, setUsersError])

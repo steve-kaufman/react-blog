@@ -36,10 +36,5 @@ export const useApi = (method, service, ...options) => {
     getObj()
   }, [method, service, options, obj, error, uiDispatch])
 
-  const reload = () => {
-    setObj(null)
-    setError(false)
-  }
-
   return [obj, error, setObj, setError]
 }
