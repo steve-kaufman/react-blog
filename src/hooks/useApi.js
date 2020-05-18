@@ -15,7 +15,10 @@ export const useApi = (method, service, ...options) => {
 
   // Fetches object when component mounts
   useEffect(() => {
+    // Return if already loaded or errored
     if (obj || error) return
+    // Wait for options to be set if explicitly null
+    if (options[0] === null) return
 
     const getObj = async () => {
       try {
@@ -33,5 +36,10 @@ export const useApi = (method, service, ...options) => {
     getObj()
   }, [method, service, options, obj, error, uiDispatch])
 
-  return [obj, error]
+  const reload = () => {
+    setObj(null)
+    setError(false)
+  }
+
+  return [obj, error, setObj, setError]
 }

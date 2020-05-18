@@ -1,14 +1,15 @@
 const { authenticate } = require('@feathersjs/authentication').hooks
-
 const {
   hashPassword, protect
 } = require('@feathersjs/authentication-local').hooks
 
+const allowAnonymous = require('../../hooks/allow-anonymous')
+
 module.exports = {
   before: {
     all: [],
-    find: [authenticate('jwt')],
-    get: [authenticate('jwt')],
+    find: [allowAnonymous(), authenticate('jwt', 'anonymous')],
+    get: [allowAnonymous(), authenticate('jwt', 'anonymous')],
     create: [hashPassword('password')],
     update: [hashPassword('password'), authenticate('jwt')],
     patch: [hashPassword('password'), authenticate('jwt')],

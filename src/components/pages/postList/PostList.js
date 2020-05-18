@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import moment from 'moment'
 import './PostList.scss'
 
@@ -7,11 +8,54 @@ import { LoadingPage, Post, Page } from '../..'
 import { useApi } from '../../../hooks/useApi'
 
 export const PostList = () => {
+  // Get user email from params
+  const params = useParams()
+  const [usersQuery, setUsersQuery] = useState(null)
+  const [postsQuery, setPostsQuery] = useState(null)
+
+  // Get user from email
+  const [
+    usersResult, 
+    usersError, 
+    setUsers, 
+    setUsersError
+  ] = useApi('find', 'users', usersQuery)
+
   // Get posts and potential errors from API
-  const [posts, error] = useApi('find', 'posts')
+  const [
+    posts, 
+    postsError, 
+    setPosts, 
+    setPostsError
+  ] = useApi('find', 'posts', postsQuery)
+
+  useEffect(() => {
+    // If a user email is specified, get the user, else get all posts
+    const { email } = params
+    if (email) {
+      setUsersQuery({ query: { email } })
+      setPostsQuery(null)
+    } else {
+      setPostsQuery(undefined)
+      setUsersQuery(null)
+    }
+    // Reset posts and error to make sure they reload
+    setPosts(null)
+    setPostsError(false)
+    setUsers(null)
+    setUsersError(false)
+  }, [params, setPosts, setPostsError, setUsers, setUsersError])
+
+  useEffect(() => {
+    // If a user has been loaded, get that user's posts
+    if (usersResult) {
+      const user = usersResult[0]
+      setPostsQuery({ query: { userId: user.id } })
+    }
+  }, [usersResult])
 
   // If there's an error return blank page
-  if (error) {
+  if (postsError || usersError) {
     return <Page />
   }
 

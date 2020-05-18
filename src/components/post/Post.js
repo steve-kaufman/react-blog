@@ -52,7 +52,9 @@ export const Post = (props) => {
       <header className='post-header'>
         {editLink}
         <p>{createdAt.calendar()}</p>
-        <span className='author-link link'>{user.email}</span>
+        <Link to={`/u/${user.email}`}>
+          <span className='author-link link'>{user.email}</span>
+        </Link>
       </header>
       <aside className='post-controls'>
         <span className='btn' onClick={() => { toggleThumb('up') }}>
