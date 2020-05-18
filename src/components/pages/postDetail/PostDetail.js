@@ -13,13 +13,7 @@ export const PostDetail = (props) => {
   const id = Number(params.id)
 
   // Get post and potential errors from API
-  const [post, error] = useApi('get', 'posts', id)
-
-
-  // If there's an error return a blank page with error messages
-  if (error) {
-    return <Page messages={[error]} />
-  }
+  const [post] = useApi('get', 'posts', id)
 
   // If posts aren't loaded return loading page
   if (!post) {

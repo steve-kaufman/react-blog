@@ -43,7 +43,7 @@ export const Login = () => {
       history.push('/')
     } catch (e) {
       uiDispatch(setMessages([{
-        type: 'info',
+        type: 'error',
         content: 'Incorrect email and/or password!'
       }]))
     }

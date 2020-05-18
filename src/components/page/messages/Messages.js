@@ -18,7 +18,7 @@ export const Messages = (props) => {
         <CSSTransition timeout={500} classNames='message-transition' key={i}>
           <div className={`message message-${message.type}`}>
             <p>
-              {message.content}
+              <span className='content'>{message.content}</span>
               <button onClick={() => { dispatch(deleteMessage(i)) }}>
                 <Icon icon={closeIcon} />
               </button>

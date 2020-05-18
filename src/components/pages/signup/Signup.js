@@ -38,7 +38,7 @@ export const Signup = () => {
       api.authenticate({ strategy: 'local', email, password })
     } catch (e) {
       uiDispatch(setMessages([{
-        type: 'info',
+        type: 'error',
         content: `A user with the email ${email} already exists!`
       }]))
     }

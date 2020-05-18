@@ -10,9 +10,9 @@ export const PostList = () => {
   // Get posts and potential errors from API
   const [posts, error] = useApi('find', 'posts')
 
-  // If there's an error return a blank page with error messages
+  // If there's an error return blank page
   if (error) {
-    return <Page messages={[error]} />
+    return <Page />
   }
 
   // If posts aren't loaded return loading page

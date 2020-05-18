@@ -5,7 +5,7 @@
   padding-bottom: 0;
 
   p {
-    padding: 0 1.5rem;
+    padding: 0 1.2rem;
     border-left: 8px solid black;
     background-color: lighten($primary-color, 5);
     font-weight: bold;
@@ -21,9 +21,13 @@
       }
     }
 
+    .content {
+      padding: 0.5rem 0;
+    }
+
     button {
       margin-top: 5px;
-      width: 2rem;
+      width: 3rem;
       height: 2rem;
       color: lighten($primary-color, 10);
 
@@ -42,9 +46,9 @@
     border-color: $info;
   }
 
-  // .closed {
-  //   display: none;
-  // }
+  &-error p {
+    border-color: $error;
+  }
 }
 
 .message-transition-appear {

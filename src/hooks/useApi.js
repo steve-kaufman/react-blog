@@ -1,11 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import api from '../api'
 
+import { UIContext } from '../context'
+import { setMessages } from '../actions'
+
 export const useApi = (method, service, ...options) => {
+  // UI context dispatch
+  const [, uiDispatch] = useContext(UIContext)
+
   // Result
   const [obj, setObj] = useState(null)
-  // Errors 
-  const [error, setError] = useState(null)
+  // Error state
+  const [error, setError] = useState(false)
 
   // Fetches object when component mounts
   useEffect(() => {
@@ -16,15 +22,16 @@ export const useApi = (method, service, ...options) => {
         const res = await api.service(service)[method](...options)
         setObj(method === 'find' ? res.data : res)
       } catch (e) {
-        setError({
-          type: 'info',
+        setError(true)
+        uiDispatch(setMessages([{
+          type: 'error',
           content: e.message
-        })
+        }]))
       }
     }
 
     getObj()
-  }, [method, service, options, obj, error])
+  }, [method, service, options, obj, error, uiDispatch])
 
   return [obj, error]
 }
