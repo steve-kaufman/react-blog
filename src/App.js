@@ -1,24 +1,24 @@
-import React from 'react';
+import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from 'react-router-dom'
 
-import { 
-  Header, 
-  Login, 
+import {
+  Header,
+  Login,
   NotFound,
-  PostList, 
-  PostDetail, 
+  PostList,
+  PostDetail,
   PostUpdate,
   Signup
 } from './components'
 
 import { AuthProvider, UIProvider } from './context'
-import { PostCreate } from './components/pages/postCreate/PostCreate';
+import { PostCreate } from './components/pages/postCreate/PostCreate'
 
-function App() {
+function App () {
   return (
     <div className="App">
       <AuthProvider>
@@ -55,7 +55,7 @@ function App() {
         </Router>
       </AuthProvider>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useCallback } from 'react'
 import api from '../api'
 
 import { UIContext } from '../context'
@@ -13,6 +13,12 @@ export const useApi = (method, service, ...options) => {
   // Error state
   const [error, setError] = useState(false)
 
+  // Resets obj and error to trigger API call again
+  const reload = useCallback(() => {
+    setObj(null)
+    setError(false)
+  }, [setObj, setError])
+
   // Fetches object when component mounts
   useEffect(() => {
     // Return if already loaded or errored
@@ -23,18 +29,19 @@ export const useApi = (method, service, ...options) => {
     const getObj = async () => {
       try {
         const res = await api.service(service)[method](...options)
-        setObj(method === 'find' ? res.data : res)
+        setObj(res)
       } catch (e) {
         setError(true)
         uiDispatch(setMessages([{
           type: 'error',
           content: e.message
         }]))
+        console.error(e)
       }
     }
 
     getObj()
   }, [method, service, options, obj, error, uiDispatch])
 
-  return [obj, error, setObj, setError]
+  return [obj, error, reload]
 }

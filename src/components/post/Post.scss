@@ -10,11 +10,11 @@
   .post-header {
     grid-column: 1 / 3;
     display: flex;
-    background-color: $primary-color;
     align-items: baseline;
     padding: 1rem;
+    background-color: $primary-color;
     
-    a {
+    .author-link {
       margin-left: auto;
       color: darken($color: white, $amount: 20)
     }

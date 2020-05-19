@@ -7,10 +7,12 @@ const getLikes = require('../../hooks/get-likes')
 const getUser = require('../../hooks/get-user')
 const allowAnonymous = require('../../hooks/allow-anonymous')
 
+const queryByUserEmail = require('../../hooks/query-by-user-email');
+
 module.exports = {
   before: {
     all: [],
-    find: [allowAnonymous(), authenticate('jwt', 'anonymous')],
+    find: [allowAnonymous(), authenticate('jwt', 'anonymous'), queryByUserEmail()],
     get: [allowAnonymous(), authenticate('jwt', 'anonymous')],
     create: [
       authenticate('jwt'),

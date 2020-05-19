@@ -52,9 +52,9 @@ export const Post = (props) => {
       <header className='post-header'>
         {editLink}
         <p>{createdAt.calendar()}</p>
-        <Link to={`/u/${user.email}`}>
-          <span className='author-link link'>{user.email}</span>
-        </Link>
+        <span className='author-link link'>
+          <Link to={`/u/${user.email}`}>{user.email}</Link>
+        </span>
       </header>
       <aside className='post-controls'>
         <span className='btn' onClick={() => { toggleThumb('up') }}>
@@ -83,5 +83,7 @@ export const Post = (props) => {
 }
 
 Post.propTypes = {
-  post: PropTypes.object.isRequired
+  post: PropTypes.object.isRequired,
+  isShort: PropTypes.bool,
+  style: PropTypes.object
 }
