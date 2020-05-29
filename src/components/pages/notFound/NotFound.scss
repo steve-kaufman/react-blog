@@ -21,4 +21,9 @@
     color: darken($color: white, $amount: 20);
     max-width: 50vw;
   }
+
+  @include lg {
+    border: none;
+    grid-column: 1 / 4;
+  }
 }

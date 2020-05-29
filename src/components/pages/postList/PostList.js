@@ -68,7 +68,7 @@ export const PostList = () => {
   return (
     <Page>
       <header className='page-title'>
-        <h2>Recent Posts:</h2>
+        <h2>{email ? `Posts by ${email}` : 'Recent Posts:'}</h2>
         <h4 className='text-secondary-light'>{currentTime}</h4>
       </header>
       {posts.map((post, i) => (

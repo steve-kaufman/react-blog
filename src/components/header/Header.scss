@@ -13,9 +13,20 @@ header#page-header {
   position: fixed;
   top: 0;
 
+  a {
+    flex-shrink: 0;
+  }
   .header-title {
     font-family: "Source Sans Pro";
-    font-size: 1.8rem
+    font-size: 1.8rem;
+  }
+
+  @include lg {
+    justify-content: flex-start;
+  }
+
+  @include xl {
+    padding: 0 10rem;
   }
 }
 

@@ -3,7 +3,7 @@
 .post {
   display: grid;
 
-  width: 100vw;
+  width: 100%;
 
   grid-template-columns: 3rem 1fr;
 
@@ -69,7 +69,22 @@
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
-        max-height: 30vh;
+      }
+
+      @include lg {
+        position: relative;
+
+        p {
+          max-height: 30vh;
+          white-space: normal;
+        }
+
+        &::before {
+          position: absolute;
+          content: "...";
+          bottom: 1.5rem;
+          right: 1.5rem;
+        }
       }
     }
 

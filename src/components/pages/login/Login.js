@@ -56,41 +56,55 @@ export const Login = () => {
     history.goBack()
   }
 
+  /**
+   * Runs login if user hits enter
+   */
+  const onSubmit = (e) => {
+    e.preventDefault()
+    login()
+  }
+
   return (
     <Page className='login-page'>
       <header className='page-title'>
         <h2>Log In</h2>
         <h3>Enter your email and password:</h3>
       </header>
-      <div className={'form email-form ' + (emailFocused ? 'focused' : '')}>
-        <label htmlFor='email-input'>email:</label>
-        <input 
-          id='email-input' 
-          value={email}
-          onChange={e => setUsername(e.target.value)}
-          onFocus={() => { setUsernameFocused(true) }}
-          onBlur={() => setUsernameFocused(false)}
-        />
-      </div>
-      <div className={'form password-form ' + (passwordFocused ? 'focused' : '')}>
-        <label htmlFor='password-input'>password:</label>
-        <input 
-          id='password-input' 
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-          onFocus={() => { setPasswordFocused(true) }}
-          onBlur={() => setPasswordFocused(false)}
-          type='password' 
-        />
-      </div>
-      <div className="controls">
-        <p>Need an account? <Link to='/sign-up'>Sign Up</Link></p>
-        <button className="btn save-btn" onClick={login}>Log In</button>
-        <button 
-          className="btn cancel-btn" 
-          onClick={() => { cancel() }}
-        > Cancel </button>
-      </div>
+      <form onSubmit={onSubmit}>
+        <div className={'form email-form ' + (emailFocused ? 'focused' : '')}>
+          <label htmlFor='email-input'>email:</label>
+          <input 
+            id='email-input' 
+            value={email}
+            onChange={e => setUsername(e.target.value)}
+            onFocus={() => { setUsernameFocused(true) }}
+            onBlur={() => setUsernameFocused(false)}
+          />
+        </div>
+        <div className={'form password-form ' + (passwordFocused ? 'focused' : '')}>
+          <label htmlFor='password-input'>password:</label>
+          <input 
+            id='password-input' 
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            onFocus={() => { setPasswordFocused(true) }}
+            onBlur={() => setPasswordFocused(false)}
+            type='password' 
+          />
+        </div>
+        <div className="controls">
+          <p>Need an account? <Link to='/sign-up'>Sign Up</Link></p>
+          <button 
+            type='submit'
+            className="btn save-btn" 
+            onClick={login}
+          >Log In</button>
+          <button 
+            className="btn cancel-btn" 
+            onClick={() => { cancel() }}
+          > Cancel </button>
+        </div>
+      </form>
     </Page>
   )
 }

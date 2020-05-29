@@ -4,8 +4,31 @@ main#page-main {
   margin-top: $header-height;
 
   .page-title {
-    padding: 2rem 2rem;
-    // background: lighten($color: $primary-color, $amount: 12);
+    padding: 2rem;
+
+  }
+
+  @include md {
+    padding: 0 2rem;
+
+    .page-title {
+      padding-left: 1rem;
+    }
+  }
+
+  @include lg {
+    display: grid;
+    grid-template-columns: 50% auto 20rem;
+    grid-template-rows: auto auto;
+    padding: 2rem 4rem;
+  }
+
+  @include xl {
+    padding: 2rem 10rem;
+
+    .page-title {
+      padding: 2rem 0;
+    }
   }
 }
 

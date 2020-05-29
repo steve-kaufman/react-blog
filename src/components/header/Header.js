@@ -31,8 +31,7 @@ export const Header = () => {
     // If already on home page redirect won't work
     if (history.location.pathname === '/') {
       uiDispatch(setMessages(messages))
-    }
-    else {
+    } else {
       uiDispatch(queueMessages(messages))
       history.push({ pathname: '/' })
     }
@@ -46,18 +45,20 @@ export const Header = () => {
   }
 
   // Class to add to menu items when menu is open
-  const showClass = ui.menuIsOpen ? 'show' : ''
+  const showClass = ui.menuIsOpen || ui.isLg ? 'show' : ''
 
   return (
     <header id='page-header'>
       <Link to='/'>
         <span className='header-title'>React Blog</span>
       </Link>
-      <div className={`menu-btn ${showClass}`} onClick={toggleMenu}>
-        <div className='btn-line' />
-        <div className='btn-line' />
-        <div className='btn-line' />
-      </div>
+      {!ui.isLg ? (
+        <div className={`menu-btn ${showClass}`} onClick={toggleMenu}>
+          <div className='btn-line' />
+          <div className='btn-line' />
+          <div className='btn-line' />
+        </div>
+      ) : null}
       <nav className={`menu ${showClass}`}>
         <ul className='nav-link-list'>
           <li className={`nav-link ${showClass}`}>
@@ -66,8 +67,13 @@ export const Header = () => {
           <li className={`nav-link ${showClass}`}>
             <Link to='/about'> About </Link>
           </li>
+          {auth.user ? (
+            <li className={`nav-link ${showClass}`}>
+              <Link to={`/u/${auth.user.email}`}> My Posts </Link>
+            </li>
+          ) : null}
         </ul>
-        <ul className='nav-link-list'>
+        <ul className='nav-link-list ml-auto'>
           {!auth.user
             ? (
               <>

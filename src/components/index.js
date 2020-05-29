@@ -8,6 +8,7 @@ import { Post } from './post/Post'
 import { PostDetail } from './pages/postDetail/PostDetail'
 import { PostList } from './pages/postList/PostList'
 import { PostUpdate } from './pages/postUpdate/PostUpdate'
+import { Sidebar } from './sidebar/Sidebar'
 import { Signup } from './pages/signup/Signup'
 
 export {
@@ -21,5 +22,6 @@ export {
   PostDetail,
   PostList,
   PostUpdate,
+  Sidebar,
   Signup
 }

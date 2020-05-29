@@ -69,4 +69,29 @@
       }
     }
   }
+
+  @include lg {
+    flex-direction: row;
+    position: relative;
+    top: auto;
+    background-color: transparent;
+    padding: 0;
+
+    &::before {
+      display: none;
+    }
+
+    .nav-link-list {
+      display: flex;
+      margin-left: 2rem;
+
+      .nav-link {
+        margin: 0 1rem;
+      }
+
+      &.ml-auto {
+        margin-left: auto;
+      }
+    }
+  }
 }

@@ -20,7 +20,7 @@ import { PostCreate } from './components/pages/postCreate/PostCreate'
 
 function App () {
   return (
-    <div className="App">
+    <div className='App'>
       <AuthProvider>
         <Router basename={process.env.PUBLIC_URL || '/'}>
           <UIProvider>

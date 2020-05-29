@@ -8,6 +8,7 @@ import { Messages } from './messages/Messages'
 
 import { UIContext } from '../../context'
 import { setMenuOpen } from '../../actions'
+import { Sidebar } from '..'
 
 export const Page = (props) => {
   // Router location object
@@ -39,22 +40,23 @@ export const Page = (props) => {
   return (
     <main id='page-main' className={props.className}>
       <Messages messages={uiState.messages} />
-      <TransitionGroup appear={true} className='list-page'>
-        {React.Children.map(children, (child, i) => { 
+      <TransitionGroup appear className='list-page'>
+        {React.Children.map(children, (child, i) => {
           const transitionDelay = i * 200
           return (
-            <CSSTransition 
-              key={i} 
-              timeout={800 + transitionDelay} 
+            <CSSTransition
+              key={i}
+              timeout={800 + transitionDelay}
               classNames='page-item'
             >
-              { React.cloneElement(child, {
-                style: { transitionDelay: transitionDelay + 'ms' },
-              }) }
+              {React.cloneElement(child, {
+                style: { transitionDelay: transitionDelay + 'ms' }
+              })}
             </CSSTransition>
           )
         })}
       </TransitionGroup>
+      {uiState.isLg ? <Sidebar /> : null}
     </main>
   )
 }

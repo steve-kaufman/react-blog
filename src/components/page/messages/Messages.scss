@@ -3,6 +3,7 @@
 .message {
   padding: 2rem;
   padding-bottom: 0;
+  grid-column: 1 / 4;
 
   p {
     padding: 0 1.2rem;
@@ -48,6 +49,10 @@
 
   &-error p {
     border-color: $error;
+  }
+
+  @include lg {
+    padding: 0;
   }
 }
 
