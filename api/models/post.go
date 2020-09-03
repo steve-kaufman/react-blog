@@ -1,8 +1,8 @@
 package models
 
-// Post model holds data for post objects
+// Post is the model for post objects
 type Post struct {
-	ID      int
+	ID      string
 	Title   string
 	Content string
 }
