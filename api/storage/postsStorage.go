@@ -6,4 +6,5 @@ import "github.com/steve-kaufman/react-blog/api/models"
 type PostsStorage interface {
 	Find() []models.Post
 	Get(id int) (models.Post, error)
+	Create(post models.Post) models.Post
 }

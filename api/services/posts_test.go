@@ -8,6 +8,7 @@ import (
 )
 
 type TestDB struct {
+	count int
 	posts []models.Post
 }
 
@@ -23,6 +24,15 @@ func (db *TestDB) Get(id int) (models.Post, error) {
 	}
 
 	return models.Post{}, errors.New("Post not found")
+}
+
+func (db *TestDB) Create(post models.Post) models.Post {
+	db.count++
+	post.ID = db.count
+
+	db.posts = append(db.posts, post)
+
+	return post
 }
 
 /* StructToString is a testing utility that skips error checking on
