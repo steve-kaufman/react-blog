@@ -1,8 +1,9 @@
 package services
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
-	"github.com/steve-kaufman/react-blog/api/models"
 	"github.com/steve-kaufman/react-blog/api/storage"
 )
 
@@ -16,11 +17,21 @@ func (service *PostsService) find(c *gin.Context) {
 }
 
 func (service *PostsService) get(c *gin.Context) {
-	c.JSON(200, models.Post{
-		ID:      1,
-		Title:   "Post 1",
-		Content: "Content of Post 1",
-	})
+	id, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		c.String(400, InvalidIDError)
+		return
+	}
+
+	post, err := service.db.Get(id)
+
+	if err != nil {
+		c.String(404, ObjectNotFoundError)
+		return
+	}
+
+	c.JSON(200, post)
 }
 
 // Route sets up routes for the posts service

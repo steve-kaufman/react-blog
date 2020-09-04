@@ -11,64 +11,69 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var tests = []TestCase{
-	{
-		name:  "No posts",
-		input: []models.Post{},
-	},
-	{
-		name: "1 post",
-		input: []models.Post{
-			{
-				ID:      1,
-				Title:   "Post 1",
-				Content: "Content of Post 1",
-			},
-		},
-	},
-	{
-		name: "2 posts",
-		input: []models.Post{
-			{
-				ID:      1,
-				Title:   "Post 1",
-				Content: "Content of Post 1",
-			},
-			{
-				ID:      2,
-				Title:   "Post 2",
-				Content: "Content of Post 2",
-			},
-		},
-	},
-	{
-		name: "3 posts",
-		input: []models.Post{
-			{
-				ID:      1,
-				Title:   "Post 1",
-				Content: "Content of Post 1",
-			},
-			{
-				ID:      2,
-				Title:   "Post 2",
-				Content: "Content of Post 2",
-			},
-			{
-				ID:      3,
-				Title:   "Post 3",
-				Content: "Content of Post 3",
-			},
-		},
-	},
-}
-
 func TestFindPosts(t *testing.T) {
+	type TestCase struct {
+		name       string
+		inputPosts []models.Post
+	}
+
+	var tests = []TestCase{
+		{
+			name:       "No posts",
+			inputPosts: []models.Post{},
+		},
+		{
+			name: "1 post",
+			inputPosts: []models.Post{
+				{
+					ID:      1,
+					Title:   "Post 1",
+					Content: "Content of Post 1",
+				},
+			},
+		},
+		{
+			name: "2 posts",
+			inputPosts: []models.Post{
+				{
+					ID:      1,
+					Title:   "Post 1",
+					Content: "Content of Post 1",
+				},
+				{
+					ID:      2,
+					Title:   "Post 2",
+					Content: "Content of Post 2",
+				},
+			},
+		},
+		{
+			name: "3 posts",
+			inputPosts: []models.Post{
+				{
+					ID:      1,
+					Title:   "Post 1",
+					Content: "Content of Post 1",
+				},
+				{
+					ID:      2,
+					Title:   "Post 2",
+					Content: "Content of Post 2",
+				},
+				{
+					ID:      3,
+					Title:   "Post 3",
+					Content: "Content of Post 3",
+				},
+			},
+		},
+	}
+
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			db := new(TestDB)
 
-			db.posts = test.input.([]models.Post)
+			db.posts = test.inputPosts
 
 			postsService := services.NewPostsService(db)
 			r := postsService.Route(gin.Default())
@@ -78,10 +83,10 @@ func TestFindPosts(t *testing.T) {
 
 			r.ServeHTTP(w, req)
 
-			postsAsString := StructToString(test.input)
+			inputPostsStr := StructToString(test.inputPosts)
 
 			assert.Equal(t, 200, w.Code)
-			assert.Equal(t, postsAsString, w.Body.String())
+			assert.Equal(t, inputPostsStr, w.Body.String())
 		})
 	}
 }

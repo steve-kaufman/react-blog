@@ -1,6 +1,7 @@
 package services_test
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -35,15 +36,77 @@ func TestGetPost(t *testing.T) {
 		},
 	}
 
-	postsService := services.NewPostsService(db)
+	type expected struct {
+		code int
+		body string
+	}
 
-	router := postsService.Route(gin.Default())
+	type TestCase struct {
+		name         string
+		inputID      interface{}
+		expectedCode int
+		expectedBody string
+	}
 
-	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/posts/1", nil)
+	tests := []TestCase{
+		{
+			name:         "Post 1",
+			inputID:      1,
+			expectedCode: 200,
+			expectedBody: StructToString(db.posts[0]),
+		},
+		{
+			name:         "Post 2",
+			inputID:      2,
+			expectedCode: 200,
+			expectedBody: StructToString(db.posts[1]),
+		},
+		{
+			name:         "Post 3",
+			inputID:      3,
+			expectedCode: 200,
+			expectedBody: StructToString(db.posts[2]),
+		},
+		{
+			name:         "Post 0 Not Found",
+			inputID:      0,
+			expectedCode: 404,
+			expectedBody: services.ObjectNotFoundError,
+		},
+		{
+			name:         "Post 4 Not Found",
+			inputID:      4,
+			expectedCode: 404,
+			expectedBody: services.ObjectNotFoundError,
+		},
+		{
+			name:         "String ID Error",
+			inputID:      "foo",
+			expectedCode: 400,
+			expectedBody: services.InvalidIDError,
+		},
+		{
+			name:         "Mixed String and Int ID Error",
+			inputID:      "1foo2",
+			expectedCode: 400,
+			expectedBody: services.InvalidIDError,
+		},
+	}
 
-	router.ServeHTTP(w, req)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			postsService := services.NewPostsService(db)
 
-	assert.Equal(t, 200, w.Code)
-	assert.Equal(t, StructToString(db.posts[0]), w.Body.String())
+			router := postsService.Route(gin.Default())
+
+			w := httptest.NewRecorder()
+			url := fmt.Sprintf("/posts/%v", test.inputID)
+			req, _ := http.NewRequest("GET", url, nil)
+
+			router.ServeHTTP(w, req)
+
+			assert.Equal(t, test.expectedCode, w.Code)
+			assert.Equal(t, test.expectedBody, w.Body.String())
+		})
+	}
 }
