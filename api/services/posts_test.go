@@ -1,8 +1,10 @@
 package services_test
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
+	"io"
 
 	"github.com/steve-kaufman/react-blog/api/models"
 )
@@ -35,10 +37,30 @@ func (db *TestDB) Create(post models.Post) models.Post {
 	return post
 }
 
+func (db *TestDB) Update(post models.Post) (models.Post, error) {
+	for i, oldPost := range db.posts {
+		if oldPost.ID != post.ID {
+			continue
+		}
+
+		db.posts[i] = post
+	}
+
+	return models.Post{}, errors.New("Post not found")
+}
+
 /* StructToString is a testing utility that skips error checking on
-json.Marshal */
+json.Marshal and converts bytes to string */
 func StructToString(v interface{}) string {
 	jsonBytes, _ := json.Marshal(v)
 
 	return string(jsonBytes)
+}
+
+/* StructToReader is a testing utility that skips error checking on
+json.Marshal and converts bytes to reader */
+func StructToReader(v interface{}) io.Reader {
+	vAsBytes, _ := json.Marshal(v)
+
+	return bytes.NewReader(vAsBytes)
 }

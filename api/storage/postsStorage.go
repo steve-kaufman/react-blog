@@ -7,4 +7,5 @@ type PostsStorage interface {
 	Find() []models.Post
 	Get(id int) (models.Post, error)
 	Create(post models.Post) models.Post
+	Update(post models.Post) (models.Post, error)
 }

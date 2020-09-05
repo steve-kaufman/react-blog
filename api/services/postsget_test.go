@@ -36,11 +36,6 @@ func TestGetPost(t *testing.T) {
 		},
 	}
 
-	type expected struct {
-		code int
-		body string
-	}
-
 	type TestCase struct {
 		name         string
 		inputID      interface{}
