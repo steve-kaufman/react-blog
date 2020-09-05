@@ -1,9 +1,6 @@
 package services_test
 
 import (
-	"bytes"
-	"encoding/json"
-	"io"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -14,19 +11,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func StructToReader(v interface{}) io.Reader {
-	vAsBytes, _ := json.Marshal(v)
-
-	return bytes.NewReader(vAsBytes)
-}
-
 func TestCreatePost(t *testing.T) {
 	type TestCase struct {
-		name         string
-		postsInDB    []models.Post
-		inputTitle   string
-		inputContent string
-		expectedID   int
+		name          string
+		existingPosts []models.Post
+		inputTitle    string
+		inputContent  string
+		expectedID    int
 	}
 
 	tests := []TestCase{
@@ -38,7 +29,7 @@ func TestCreatePost(t *testing.T) {
 		},
 		{
 			name: "One post already in DB",
-			postsInDB: []models.Post{
+			existingPosts: []models.Post{
 				{
 					Title:   "Post 1",
 					Content: "Content of Post 1",
@@ -50,7 +41,7 @@ func TestCreatePost(t *testing.T) {
 		},
 		{
 			name: "Two posts already in DB",
-			postsInDB: []models.Post{
+			existingPosts: []models.Post{
 				{
 					Title:   "Post 1",
 					Content: "Content of Post 1",
@@ -75,7 +66,7 @@ func TestCreatePost(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			db := new(TestDB)
-			for _, post := range test.postsInDB {
+			for _, post := range test.existingPosts {
 				db.Create(post)
 			}
 			postsService := services.NewPostsService(db)
